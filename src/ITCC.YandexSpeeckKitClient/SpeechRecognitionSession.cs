@@ -28,6 +28,7 @@ namespace ITCC.YandexSpeeckKitClient
         private Stream _newtworkStream;
         private readonly string _applicationName;
         private readonly string _apiKey;
+        private bool _sessionStarted;
 
         #endregion
 
@@ -156,22 +157,36 @@ namespace ITCC.YandexSpeeckKitClient
 
                 var result = new StartSessionResult(connectionResponse);
                 SessionId = result.SessionId;
+
+                if (connectionResponse.ResponseCode == ResponseCode.Ok)
+                {
+                    _sessionStarted = true;
+                }
+                else
+                {
+                    Dispose();
+                }
+
                 return result;
             }
             catch (AuthenticationException authenticationException)
             {
+                Dispose();
                 return new StartSessionResult(authenticationException);
             }
             catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
             {
+                Dispose();
                 return StartSessionResult.TimedOut;
             }
             catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
             {
+                Dispose();
                 return StartSessionResult.TimedOut;
             }
             catch (SocketException socketException)
             {
+                Dispose();
                 return new StartSessionResult(socketException.SocketErrorCode, socketException.Message);
             }
         }
@@ -184,12 +199,15 @@ namespace ITCC.YandexSpeeckKitClient
         /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="OperationCanceledException"></exception>
         public async Task<SendChunkResult> SendChunkAsync(byte[] data, bool lastChunk = false, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (data.Length > 1024 * 1024)
                 throw new ArgumentOutOfRangeException(nameof(data), data.Length, "Chunk size must be less than 1 MB.");
+            if (!_sessionStarted)
+                throw new InvalidOperationException($"Session must be started before {nameof(SendChunkAsync)} call.");
 
             ThrowIfDisposed();
 
@@ -214,6 +232,7 @@ namespace ITCC.YandexSpeeckKitClient
             }
             catch (SocketException socketException)
             {
+                Dispose();
                 return new SendChunkResult(socketException.SocketErrorCode);
             }
         }
@@ -223,10 +242,14 @@ namespace ITCC.YandexSpeeckKitClient
         /// </summary>
         /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="OperationCanceledException"></exception>
         public async Task<ChunkRecognitionResult> ReceiveRecognitionResultAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (!_sessionStarted)
+                throw new InvalidOperationException($"Session must be started before {nameof(ReceiveRecognitionResultAsync)} call.");
+
             ThrowIfDisposed();
 
             try
@@ -244,6 +267,7 @@ namespace ITCC.YandexSpeeckKitClient
             }
             catch (SocketException socketException)
             {
+                Dispose();
                 return new ChunkRecognitionResult(socketException.SocketErrorCode);
             }
         }
@@ -252,9 +276,9 @@ namespace ITCC.YandexSpeeckKitClient
 
         #region Private methods
 
-        private int GetPort(ConnectionMode connectionMode)
+        private static int GetPort(ConnectionMode connectionMode)
         {
-            switch (ConnectionMode)
+            switch (connectionMode)
             {
                 case ConnectionMode.Secure:
                     return Configuration.SslPort;
