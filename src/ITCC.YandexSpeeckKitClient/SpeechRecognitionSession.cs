@@ -225,7 +225,7 @@ namespace ITCC.YandexSpeeckKitClient
         /// <returns></returns>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="OperationCanceledException"></exception>
-        public async Task<ChunkRecognitionResult> GetResponseAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<ChunkRecognitionResult> ReceiveRecognitionResultAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             ThrowIfDisposed();
 
