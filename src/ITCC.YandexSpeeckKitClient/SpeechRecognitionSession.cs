@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -18,25 +17,70 @@ using ITCC.YandexSpeeckKitClient.Utils;
 
 namespace ITCC.YandexSpeeckKitClient
 {
+    /// <summary>
+    /// Session used for speech recognition in data streaming mode.
+    /// </summary>
     public class SpeechRecognitionSession : IDisposable
     {
-        private const string SpeechkitVersion = "";
-        private const string SpeechkitServiceName = "asr_dictation";
+        #region Private fields
 
         private readonly TcpClient _tcpClient;
         private Stream _newtworkStream;
         private readonly string _applicationName;
         private readonly string _apiKey;
 
+        #endregion
+
+        #region Public properties
+
+        /// <summary>
+        /// Connection security options.
+        /// </summary>
         public ConnectionMode ConnectionMode { get; }
+
+        /// <summary>
+        /// The language model to use for recognition.
+        /// </summary>
         public SpeechModel SpeechModel { get; }
+
+        /// <summary>
+        /// The audio format.
+        /// </summary>
         public RecognitionAudioFormat AudioFormat { get; }
+
+        /// <summary>
+        /// The language for speech recognition.
+        /// </summary>
         public RecognitionLanguage Language { get; }
+
+        /// <summary>
+        /// Biometric parameters to analyse.
+        /// </summary>
         public BiometryParameters BiometryParameters { get; }
+
+        /// <summary>
+        /// Coordinates of device.
+        /// </summary>
         public Position Position { get; }
+
+        /// <summary>
+        /// User's universally unique identifier.
+        /// </summary>
         public Guid UserId { get; }
+
+        /// <summary>
+        /// The type of device running the client application.
+        /// </summary>
         public string Device { get; }
+
+        /// <summary>
+        /// The session ID. Specify this ID when contacting tech support.
+        /// </summary>
         public string SessionId { get; private set; }
+
+        #endregion
+
+        #region Constructors
 
         internal SpeechRecognitionSession(
             string applicationName,
@@ -44,7 +88,8 @@ namespace ITCC.YandexSpeeckKitClient
             Guid userId,
             string device,
             ConnectionMode connectionMode,
-            SpeechRecognitionSessionOptions options)
+            SpeechRecognitionSessionOptions options,
+            int timeout)
         {
             _apiKey = apiKey;
             UserId = userId;
@@ -58,11 +103,31 @@ namespace ITCC.YandexSpeeckKitClient
             _applicationName = applicationName;
             Position = options.Position;
 
-            _tcpClient = new TcpClient();
+            _tcpClient = new TcpClient
+            {
+                Client =
+                {
+                    SendTimeout = timeout,
+                    ReceiveTimeout = timeout
+                }
+            };
         }
 
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Start new speech recognition session. If connection fails or server response code if rather than 200 session will be disposed.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns></returns>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
         public async Task<StartSessionResult> StartAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            ThrowIfDisposed();
+
             try
             {
                 await _tcpClient.ConnectAsync(Configuration.RecognitionEndpointAddress, GetPort(ConnectionMode));
@@ -97,30 +162,95 @@ namespace ITCC.YandexSpeeckKitClient
             {
                 return new StartSessionResult(authenticationException);
             }
-            catch (SocketException socketException)
-            {
-                return new StartSessionResult(socketException);
-            }
             catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
             {
-                return new StartSessionResult(socketException);
+                return StartSessionResult.TimedOut;
+            }
+            catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                return StartSessionResult.TimedOut;
+            }
+            catch (SocketException socketException)
+            {
+                return new StartSessionResult(socketException.SocketErrorCode, socketException.Message);
             }
         }
-        public async Task SendChunkAsync(byte[] data, bool lastChunk = false, CancellationToken cancellationToken = default(CancellationToken))
+
+        /// <summary>
+        /// Send new chunk ou audio data to recognize.
+        /// </summary>
+        /// <param name="data">Binary audio data.</param>
+        /// <param name="lastChunk">Indicates this chunk is the last chunk in current session. If true server forms final results and closes connection after next result request.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
+        public async Task<SendChunkResult> SendChunkAsync(byte[] data, bool lastChunk = false, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (data.Length > 1024 * 1024)
+                throw new ArgumentOutOfRangeException(nameof(data), data.Length, "Chunk size must be less than 1 MB.");
+
+            ThrowIfDisposed();
+
             var message = new AddDataMessage
             {
                 AudioData = data,
                 LastChunk = lastChunk
             };
 
-            await _newtworkStream.SendMessageAsync(message, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                await _newtworkStream.SendMessageAsync(message, cancellationToken).ConfigureAwait(false);
+                return SendChunkResult.OkResult;
+            }
+            catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                return SendChunkResult.TimedOut;
+            }
+            catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                return SendChunkResult.TimedOut;
+            }
+            catch (SocketException socketException)
+            {
+                return new SendChunkResult(socketException.SocketErrorCode);
+            }
         }
-        public async Task<ChunkRecognitionResult> GetResponse(CancellationToken cancellationToken = default(CancellationToken))
+
+        /// <summary>
+        /// Receive recognition results of previously uploaded chunks.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns></returns>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
+        public async Task<ChunkRecognitionResult> GetResponseAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = await _newtworkStream.GetDeserializedMessageAsync<AddDataResponseMessage>(cancellationToken).ConfigureAwait(false);
-            return new ChunkRecognitionResult(response);
+            ThrowIfDisposed();
+
+            try
+            {
+                var response = await _newtworkStream.GetDeserializedMessageAsync<AddDataResponseMessage>(cancellationToken).ConfigureAwait(false);
+                return new ChunkRecognitionResult(response);
+            }
+            catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                return ChunkRecognitionResult.TimedOut;
+            }
+            catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                return ChunkRecognitionResult.TimedOut;
+            }
+            catch (SocketException socketException)
+            {
+                return new ChunkRecognitionResult(socketException.SocketErrorCode);
+            }
         }
+
+        #endregion
+
+        #region Private methods
 
         private int GetPort(ConnectionMode connectionMode)
         {
@@ -137,9 +267,9 @@ namespace ITCC.YandexSpeeckKitClient
         private ConnectionRequestMessage ConnectionRequestMessage => new ConnectionRequestMessage
         {
             ApplicationName = _applicationName,
-            SpeechkitVersion = SpeechkitVersion,
+            SpeechkitVersion = Configuration.SpeechkitVersion,
             ApiKey = _apiKey,
-            ServiceName = SpeechkitServiceName,
+            ServiceName = Configuration.SpeechkitServiceName,
             Uuid = UserId.ToUuid(),
             Device = Device,
             Coords = Position.ToString(),
@@ -161,43 +291,36 @@ namespace ITCC.YandexSpeeckKitClient
         {
             var requestMessage = Encoding.UTF8.GetBytes(Configuration.HelloMessage);
 
-            await _newtworkStream.WriteAsync(requestMessage, 0, requestMessage.Length, cancellationToken);
-            var responseBytes = await ReceiveAsync(_newtworkStream, cancellationToken);
+            await _newtworkStream.WriteAsync(requestMessage, 0, requestMessage.Length, cancellationToken).ConfigureAwait(false);
+            var responseBytes = await _newtworkStream.ReceiveAllBytesAsync(cancellationToken).ConfigureAwait(false);
 
             return Encoding.UTF8.GetString(responseBytes);
         }
-        private async Task<byte[]> ReceiveAsync(Stream stream, CancellationToken cancellationToken)
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            using (var ms = new MemoryStream())
-            {
-                var buffer = new byte[2048];
 
-                while (true)
-                {
-                    var readCount = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-
-                    ms.Write(buffer, 0, readCount);
-
-                    if (readCount < buffer.Length)
-                        break;
-                }
-                sw.Stop();
-                ms.Position = 0;
-                return ms.ToArray();
-            }
-        }
+        #endregion
 
         #region IDisposable
 
+        private bool _disposed;
+
+        /// <inheritdoc />
         public void Dispose()
         {
+            if (_disposed)
+                return;
+
 #if NETSTANDARD1_3
             _tcpClient?.Dispose();
 #elif NET45 || NET46
             _tcpClient?.Close();
 #endif
+
+            _disposed = true;
+        }
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(SpeechRecognitionSession));
         }
 
         #endregion

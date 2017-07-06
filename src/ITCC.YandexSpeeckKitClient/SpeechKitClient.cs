@@ -16,29 +16,88 @@ using ITCC.YandexSpeeckKitClient.Utils;
 
 namespace ITCC.YandexSpeeckKitClient
 {
+    /// <summary>
+    /// Yandex SpeechKit Cloud API client.
+    /// </summary>
     public class SpeechKitClient : IDisposable
     {
+        #region Private fields
+
         private readonly string _apiKey;
         private readonly string _applicationName;
         private readonly Guid _userId;
         private readonly string _device;
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly int _timeout;
 
-        public SpeechKitClient(string apiKey, string applicationName, Guid userId, string device)
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Create new Yandex SpeechKit Cloud API client.
+        /// </summary>
+        /// <param name="apiKey">The API key.</param>
+        /// <param name="applicationName">Name of the client application.</param>
+        /// <param name="userId">User's identifier.</param>
+        /// <param name="device">The type of device running the client application.</param>
+        /// <param name="timeout">Data streaming operation's timeout.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SpeechKitClient(string apiKey, string applicationName, Guid userId, string device, TimeSpan timeout)
+            : this(apiKey, applicationName, userId, device, (int) timeout.TotalMilliseconds)
         {
-            _apiKey = apiKey;
-            _applicationName = applicationName;
-            _userId = userId;
-            _device = device;
         }
 
+        /// <summary>
+        /// Create new Yandex SpeechKit Cloud API client.
+        /// </summary>
+        /// <param name="apiKey">The API key.</param>
+        /// <param name="applicationName">Name of the client application.</param>
+        /// <param name="userId">User's identifier.</param>
+        /// <param name="device">The type of device running the client application.</param>
+        /// <param name="timeout">Data streaming operation's timeout in milliseconds.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SpeechKitClient(string apiKey, string applicationName, Guid userId, string device, int timeout = Configuration.DefaultTimeout)
+        {
+            _apiKey = string.IsNullOrWhiteSpace(apiKey) 
+                ? throw new ArgumentNullException(nameof(apiKey)) 
+                : apiKey;
 
-        public async Task<SpeechToTextResult> SpeechToTextAsync(SpeechRecognitionOptions options, Stream mediaStream, CancellationToken cancellationToken)
+            _applicationName = string.IsNullOrWhiteSpace(applicationName) 
+                ? throw new ArgumentNullException(nameof(applicationName)) 
+                : applicationName;
+
+            _device = string.IsNullOrWhiteSpace(device)
+                ? throw new ArgumentNullException(nameof(device))
+                : device;
+
+            _userId = userId;
+            _timeout = timeout;
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Speech-to-text conversion using HTTP mode.
+        /// </summary>
+        /// <param name="options">Recognition settings.</param>
+        /// <param name="mediaStream">Audio stream used for recognition.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
+        public async Task<SpeechToTextResult> SpeechToTextAsync(SpeechRecognitionOptions options, Stream mediaStream, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
             if (mediaStream == null)
                 throw new ArgumentNullException(nameof(mediaStream));
+
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
 
             var queryParams = new Dictionary<string, string>
             {
@@ -87,18 +146,22 @@ namespace ITCC.YandexSpeeckKitClient
                 return new SpeechToTextResult { TransportStatus = TransportStatus.SocketError };
             }
         }
-        public SpeechRecognitionSession CreateSpeechRecognitionSession(ConnectionMode connectionMode, SpeechRecognitionSessionOptions options)
-            => new SpeechRecognitionSession(
-                _applicationName,
-                _apiKey,
-                _userId,
-                _device,
-                connectionMode,
-                options);
+
+        /// <summary>
+        /// Text-to-speech conversion.
+        /// </summary>
+        /// <param name="options">Speech synthesis settings.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
         public async Task<TextToSpechResult> TextToSpeechAsync(SynthesisOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
+
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
 
             var queryParams = new Dictionary<string, string>
             {
@@ -140,6 +203,52 @@ namespace ITCC.YandexSpeeckKitClient
             }
         }
 
-        public void Dispose() => _httpClient?.Dispose();
+        /// <summary>
+        /// Create new speech recognition session in data streaming mode.
+        /// </summary>
+        /// <param name="connectionMode">Network security settings.</param>
+        /// <param name="options">Recognition settings.</param>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SpeechRecognitionSession CreateSpeechRecognitionSession(ConnectionMode connectionMode, SpeechRecognitionSessionOptions options)
+        {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            ThrowIfDisposed();
+
+            return new SpeechRecognitionSession(
+                _applicationName,
+                _apiKey,
+                _userId,
+                _device,
+                connectionMode,
+                options,
+                _timeout);
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        private bool _disposed;
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+
+            _httpClient?.Dispose();
+            _disposed = true;
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(SpeechKitClient));
+        }
+
+        #endregion
     }
 }

@@ -24,6 +24,11 @@ namespace ITCC.YandexSpeeckKitClient.Enums
         SslNegotiationError,
 
         /// <summary>
+        /// Operation timed out.
+        /// </summary>
+        Timeout,
+
+        /// <summary>
         /// Operation failed because of socket error.
         /// </summary>
         SocketError

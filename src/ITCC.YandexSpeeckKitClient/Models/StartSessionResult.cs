@@ -14,10 +14,13 @@ namespace ITCC.YandexSpeeckKitClient.Models
     /// </summary>
     public class StartSessionResult
     {
+
+        public static StartSessionResult TimedOut { get; } = new StartSessionResult { TransportStatus = TransportStatus.Timeout };
+
         /// <summary>
         /// 
         /// </summary>
-        public TransportStatus TransportStatus { get; }
+        public TransportStatus TransportStatus { get; private set; }
 
         /// <summary>
         /// The response code.
@@ -49,7 +52,9 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// </summary>
         public string TransportErrorMessage { get; }
 
-
+        private StartSessionResult()
+        {
+        }
         internal StartSessionResult(ConnectionResponseMessage connectionResponseMessage)
         {
             if (connectionResponseMessage == null)
@@ -69,14 +74,17 @@ namespace ITCC.YandexSpeeckKitClient.Models
             TransportStatus = TransportStatus.SslNegotiationError;
             TransportErrorMessage = authenticationException.Message;
         }
-        internal StartSessionResult(SocketException socketException)
+        internal StartSessionResult(SocketError socketError, string errorMmessage)
         {
-            if (socketException == null)
-                throw new ArgumentNullException(nameof(socketException));
+            if (socketError == System.Net.Sockets.SocketError.TimedOut)
+            {
+                TransportStatus = TransportStatus.Timeout;
+                return;
+            }
 
             TransportStatus = TransportStatus.SocketError;
-            SocketError = socketException.SocketErrorCode;
-            TransportErrorMessage = socketException.Message;
+            SocketError = socketError;
+            TransportErrorMessage = errorMmessage;
         }
         internal StartSessionResult(string response)
         {

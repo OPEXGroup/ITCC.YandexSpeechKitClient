@@ -15,11 +15,29 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
 
         private static readonly byte[] ControlSeq = { CarriageReturn, LineFeed };
 
+        public static async Task<byte[]> ReceiveAllBytesAsync(this Stream stream, CancellationToken cancellationToken)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var buffer = new byte[2048];
+
+                while (true)
+                {
+                    var readCount = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
+
+                    ms.Write(buffer, 0, readCount);
+
+                    if (readCount < buffer.Length)
+                        break;
+                }
+                ms.Position = 0;
+                return ms.ToArray();
+            }
+        }
         public static Task SendMessageAsync(this Stream stream, object messageObject, CancellationToken cancellationToken)
         {
             return stream.WriteMessageAsync(messageObject, cancellationToken);
         }
-        public static Task<byte[]> GetRawMessageAsync(this Stream stream, CancellationToken cancellationToken) => stream.ReadMessageAsync(cancellationToken);
         public static async Task<TMessage> GetDeserializedMessageAsync<TMessage>(this Stream stream, CancellationToken cancellationToken)
             where TMessage : class
         {
@@ -27,20 +45,6 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
             return BinaryMessageSerializer.Deserialize<TMessage>(message);
         }
 
-        private static byte[] CreateMessage(object messageObject)
-        {
-            var serializedMessage = BinaryMessageSerializer.Serialize(messageObject);
-            var sizeBytes = serializedMessage.Length.ToHexBytes();
-
-            using (var memoryStream = new MemoryStream())
-            {
-                memoryStream.Write(sizeBytes, 0, sizeBytes.Length);
-                memoryStream.Write(ControlSeq, 0, ControlSeq.Length);
-                memoryStream.Write(serializedMessage, 0, serializedMessage.Length);
-
-                return memoryStream.ToArray();
-            }
-        }
         private static async Task WriteMessageAsync(this Stream stream, object messageObject, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

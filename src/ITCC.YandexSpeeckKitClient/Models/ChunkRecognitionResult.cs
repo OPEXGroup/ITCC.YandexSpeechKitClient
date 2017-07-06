@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Net.Sockets;
 using ITCC.YandexSpeeckKitClient.Enums;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
 
@@ -12,6 +13,21 @@ namespace ITCC.YandexSpeeckKitClient.Models
     /// </summary>
     public class ChunkRecognitionResult
     {
+        /// <summary>
+        /// Operation timed out.
+        /// </summary>
+        public static ChunkRecognitionResult TimedOut { get; } = new ChunkRecognitionResult(System.Net.Sockets.SocketError.TimedOut);
+
+        /// <summary>
+        /// Network-level operation status.
+        /// </summary>
+        public TransportStatus TransportStatus { get; }
+
+        /// <summary>
+        /// Contains error description if socket erroroccured.
+        /// </summary>
+        public SocketError? SocketError { get; }
+
         /// <summary>
         /// Code of the server response.
         /// </summary>
@@ -42,6 +58,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
             if (addDataResponseMessage == null)
                 throw new ArgumentNullException(nameof(addDataResponseMessage));
 
+            TransportStatus = TransportStatus.Ok;
             ResponseCode = addDataResponseMessage.ResponseCode;
 
             if (ResponseCode != ResponseCode.Ok)
@@ -55,6 +72,18 @@ namespace ITCC.YandexSpeeckKitClient.Models
 
             if (addDataResponseMessage.BioResult != null)
                 Biometry = new BiometryResult(addDataResponseMessage.BioResult);
+        }
+        internal ChunkRecognitionResult(SocketError socketError)
+        {
+            if (socketError == System.Net.Sockets.SocketError.TimedOut)
+            {
+                TransportStatus = TransportStatus.Timeout;
+            }
+            else
+            {
+                TransportStatus = TransportStatus.SocketError;
+                SocketError = socketError;
+            }
         }
     }
 }
