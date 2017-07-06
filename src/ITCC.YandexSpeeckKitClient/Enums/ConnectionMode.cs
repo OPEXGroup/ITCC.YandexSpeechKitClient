@@ -3,9 +3,19 @@
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Connection security options.
+    /// </summary>
     public enum ConnectionMode
     {
+        /// <summary>
+        /// Encrypted  connection usage.
+        /// </summary>
         Secure,
+
+        /// <summary>
+        /// Use unencrypted connection.
+        /// </summary>
         Insecure
     }
 }

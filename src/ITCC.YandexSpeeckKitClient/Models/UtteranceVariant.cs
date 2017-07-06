@@ -6,12 +6,22 @@ using ITCC.YandexSpeeckKitClient.MessageModels.HttpMode;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
-    public class SimpleVariant
+    /// <summary>
+    /// Utterance hypothesis.
+    /// </summary>
+    public class UtteranceVariant
     {
+        /// <summary>
+        /// Confidence of hypothesis.
+        /// </summary>
         public double Confidence { get; }
+
+        /// <summary>
+        /// The normalized recognized text. In a normalized text, numbers are written as digits, and punctuation and abbreviations are included.
+        /// </summary>
         public string Text { get; }
 
-        public SimpleVariant(VariantMessage variantMessage)
+        internal UtteranceVariant(VariantMessage variantMessage)
         {
             if (variantMessage == null)
                 throw new ArgumentNullException(nameof(variantMessage));

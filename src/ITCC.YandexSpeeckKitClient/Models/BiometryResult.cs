@@ -8,25 +8,51 @@ using ITCC.YandexSpeeckKitClient.Enums;
 using ITCC.YandexSpeeckKitClient.Extensions;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
 using ITCC.YandexSpeeckKitClient.Utils;
-using JetBrains.Annotations;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
+    /// <summary>
+    /// Speech analysis result. 
+    /// </summary>
     public class BiometryResult
     {
+        /// <summary>
+        /// Gender analysis hypotheses.
+        /// </summary>
         public List<GenderResult> GenderResults { get; }
+
+        /// <summary>
+        /// Age group analysis hypotheses.
+        /// </summary>
         public List<AgeGroupResult> AgeGroupResults { get; }
+
+        /// <summary>
+        /// Language analysis hypotheses.
+        /// </summary>
         public List<LanguageResult> LanguageResults { get; }
 
+        /// <summary>
+        /// Most reliable speaker gender hypothesis.
+        /// </summary>
         public GenderResult Gender => GenderResults?.MostReliableResult();
+
+        /// <summary>
+        /// Most reliable speaker age group hypothesis.
+        /// </summary>
         public AgeGroupResult AgeGroup => AgeGroupResults?.MostReliableResult();
+
+        /// <summary>
+        /// Most reliable speaker language hypothesis.
+        /// </summary>
         public LanguageResult Language => LanguageResults?.MostReliableResult();
 
-        internal BiometryResult([NotNull, ItemNotNull] IEnumerable<BiometryResultMessage> biometryResultMessages)
+        internal BiometryResult(IEnumerable<BiometryResultMessage> biometryResultMessages)
         {
+            if (biometryResultMessages == null)
+                throw new ArgumentNullException(nameof(biometryResultMessages));
+
             foreach (var grouping in biometryResultMessages.GroupBy(message => message.Tag))
             {
-
                 if (grouping.Key == EnumNameHelper.GetEnumStringName<Gender>())
                 {
                     GenderResults = grouping
@@ -54,6 +80,5 @@ namespace ITCC.YandexSpeeckKitClient.Models
                 }
             }
         }
-
     }
 }

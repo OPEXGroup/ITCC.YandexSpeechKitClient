@@ -5,19 +5,45 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Indicators for the language biometric.
+    /// </summary>
     [EnumNameString("language")]
     public enum DetectedLanguage
     {
+        /// <summary>
+        /// German
+        /// </summary>
         [EnumValueString("de")]
         German,
+
+        /// <summary>
+        /// English
+        /// </summary>
         [EnumValueString("en")]
         English,
+
+        /// <summary>
+        /// French
+        /// </summary>
         [EnumValueString("fr")]
         French,
+
+        /// <summary>
+        /// Russian
+        /// </summary>
         [EnumValueString("ru")]
         Russian,
+
+        /// <summary>
+        /// Turkish
+        /// </summary>
         [EnumValueString("tr")]
         Turkish,
+
+        /// <summary>
+        /// Ukrainian
+        /// </summary>
         [EnumValueString("uk")]
         Ukrainian
     }

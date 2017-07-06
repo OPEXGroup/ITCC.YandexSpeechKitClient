@@ -5,12 +5,26 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// The emotional connotation of the voice.
+    /// </summary>
     public enum Emotion
     {
+        /// <summary>
+        /// Cheerful, friendly.
+        /// </summary>
         [EnumValueString("good")]
         Good,
+
+        /// <summary>
+        /// Neutral (mixed).
+        /// </summary>
         [EnumValueString("neutral")]
         Neutral,
+
+        /// <summary>
+        /// Irritated.
+        /// </summary>
         [EnumValueString("evil")]
         Evil
     }

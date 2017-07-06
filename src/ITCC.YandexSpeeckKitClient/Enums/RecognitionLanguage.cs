@@ -5,20 +5,50 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// The language for speech recognition.
+    /// </summary>
     public enum RecognitionLanguage
     {
+        /// <summary>
+        /// Russian
+        /// </summary>
         [EnumValueString("ru-RU")]
         Russian,
+
+        /// <summary>
+        /// English
+        /// </summary>
         [EnumValueString("en-US")]
         English,
+
+        /// <summary>
+        /// Ukrainian
+        /// </summary>
         [EnumValueString("uk-UK")]
         Ukrainian,
+
+        /// <summary>
+        /// Turkish
+        /// </summary>
         [EnumValueString("tr-TR")]
         Turkish,
+
+        /// <summary>
+        /// German
+        /// </summary>
         [EnumValueString("de-DE")]
         German,
+
+        /// <summary>
+        /// Spanish
+        /// </summary>
         [EnumValueString("es-ES")]
         Spanish,
+
+        /// <summary>
+        /// French
+        /// </summary>
         [EnumValueString("fr-FR")]
         French
     }

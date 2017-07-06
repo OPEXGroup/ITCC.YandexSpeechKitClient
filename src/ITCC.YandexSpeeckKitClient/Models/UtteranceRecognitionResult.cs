@@ -8,12 +8,22 @@ using ITCC.YandexSpeeckKitClient.MessageModels.HttpMode;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
-    public class SimpleRecognitionResult
+    /// <summary>
+    /// Simple utterance recognotion result.
+    /// </summary>
+    public class UtteranceRecognitionResult
     {
+        /// <summary>
+        /// Indicates if speech was recognized.
+        /// </summary>
         public bool Success { get; }
-        public List<SimpleVariant> Variants { get; }
 
-        public SimpleRecognitionResult(RecognitionResultsMessage recognitionResultsMessage)
+        /// <summary>
+        /// List of utterance hypothesis. Property is not null if recognition succeed.
+        /// </summary>
+        public List<UtteranceVariant> Variants { get; }
+
+        internal UtteranceRecognitionResult(RecognitionResultsMessage recognitionResultsMessage)
         {
             if (recognitionResultsMessage == null)
                 throw new ArgumentNullException(nameof(recognitionResultsMessage));
@@ -26,7 +36,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
             if (recognitionResultsMessage.Variants?.Count == 0)
                 throw new ArgumentException("Empty variant collection.", nameof(recognitionResultsMessage));
 
-            Variants = recognitionResultsMessage.Variants.Select(message => new SimpleVariant(message)).ToList();
+            Variants = recognitionResultsMessage.Variants.Select(message => new UtteranceVariant(message)).ToList();
         }
     }
 }

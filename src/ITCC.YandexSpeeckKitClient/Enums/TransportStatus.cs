@@ -3,11 +3,29 @@
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Network-level operation status.
+    /// </summary>
     public enum TransportStatus
     {
+        /// <summary>
+        /// Operation succeeded.
+        /// </summary>
         Ok,
+
+        /// <summary>
+        /// Operation failed because of unexpected server behaviour.
+        /// </summary>
         UnexpectedServerResponse,
-        CryptographyError,
+
+        /// <summary>
+        /// Operation failed because of SSL/TLS negotiation error.
+        /// </summary>
+        SslNegotiationError,
+
+        /// <summary>
+        /// Operation failed because of socket error.
+        /// </summary>
         SocketError
     }
 }

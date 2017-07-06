@@ -3,17 +3,30 @@
 
 using System;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using JetBrains.Annotations;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
+    /// <summary>
+    /// Word hypothesis message.
+    /// </summary>
     public class Word
     {
+        /// <summary>
+        /// Index of word in phrase.
+        /// </summary>
         public int Index { get; }
+
+        /// <summary>
+        /// Confidence in the hypothesis for the word.
+        /// </summary>
         public float Confidence { get; }
+
+        /// <summary>
+        /// Recognition result for the word.
+        /// </summary>
         public string Value { get; }
 
-        internal Word(int index, [NotNull] WordMessage wordMessage)
+        internal Word(int index, WordMessage wordMessage)
         {
             if (index < 0)
                 throw new ArgumentOutOfRangeException(nameof(index), "Index must be non-negative.");

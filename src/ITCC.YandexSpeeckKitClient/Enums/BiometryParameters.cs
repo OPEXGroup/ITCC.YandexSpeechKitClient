@@ -6,14 +6,32 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Biometric analysis parameters.
+    /// </summary>
     [Flags]
     public enum BiometryParameters
     {
+        /// <summary>
+        /// No biometric analysis.
+        /// </summary>
         None = 1 << 0,
+
+        /// <summary>
+        /// The gender biometric.
+        /// </summary>
         [EnumValueString("gender")]
         Gender = 1 << 1,
+
+        /// <summary>
+        /// The age group biometric.
+        /// </summary>
         [EnumValueString("group")]
         Group = 1 << 2,
+
+        /// <summary>
+        /// The language biometric.
+        /// </summary>
         [EnumValueString("language")]
         Language = 1 << 3
     }

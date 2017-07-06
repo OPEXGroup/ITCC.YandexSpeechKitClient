@@ -3,19 +3,32 @@
 
 using System.Collections.Generic;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using JetBrains.Annotations;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
-    public class PhraseResult : BaseResultModel
+    /// <summary>
+    /// Utterance hypothesis.
+    /// </summary>
+    public class UtteranceResult : BaseResultModel
     {
+        /// <summary>
+        /// Indicates if the result is intermediate. The intermediate result contains just one hypothesis for the entire utterance.
+        /// </summary>
         public bool IsIntermediate { get; }
-        public string NormalizedPhrase { get; }
+
+        /// <summary>
+        /// The normalized recognized text. In a normalized text, numbers are written as digits, and punctuation and abbreviations are included.
+        /// </summary>
+        public string NormalizedText { get; }
+
+        /// <summary>
+        /// Words in the utterance. Proterty is null for intermediate results.
+        /// </summary>
         public List<Word> Words { get; }
 
-        internal PhraseResult([NotNull] ResultMessage resultMessage) : base(resultMessage.Confidence)
+        internal UtteranceResult(ResultMessage resultMessage) : base(resultMessage.Confidence)
         {
-            NormalizedPhrase = resultMessage.Normalized;
+            NormalizedText = resultMessage.Normalized;
 
             if (resultMessage.Words == null)
             {

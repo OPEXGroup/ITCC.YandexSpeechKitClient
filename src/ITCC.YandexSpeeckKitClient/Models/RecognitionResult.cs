@@ -1,22 +1,33 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ITCC.YandexSpeeckKitClient.Extensions;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using JetBrains.Annotations;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
+    /// <summary>
+    /// Utterance recognition result.
+    /// </summary>
     public class RecognitionResult
     {
-        public List<PhraseResult> Phrases { get; }
-        public PhraseResult MostReliablePhrase => Phrases.MostReliableResult();
+        /// <summary>
+        /// Utterance recognition hypotheses.
+        /// </summary>
+        public List<UtteranceResult> Utterances { get; }
 
-        internal RecognitionResult([NotNull, ItemNotNull] IEnumerable<ResultMessage> resultMessages)
+        /// <summary>
+        /// Most reliable utterance hypothesis.
+        /// </summary>
+        public UtteranceResult MostReliableUtterance => Utterances.MostReliableResult();
+
+        /// <exception cref="ArgumentNullException"></exception>
+        internal RecognitionResult(IEnumerable<ResultMessage> resultMessages)
         {
-            Phrases = resultMessages.Select(message => new PhraseResult(message)).ToList();
+            Utterances = resultMessages?.Select(message => new UtteranceResult(message)).ToList() ?? throw new ArgumentNullException(nameof(resultMessages));
         }
     }
 }

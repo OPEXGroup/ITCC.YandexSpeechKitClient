@@ -5,10 +5,20 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Quality of generated audio.
+    /// </summary>
     public enum SynthesisQuality
     {
+        /// <summary>
+        /// Sampling rate of 48 kHz and bit rate of 768 kbit/s.
+        /// </summary>
         [EnumValueString("hi")]
         High,
+
+        /// <summary>
+        ///  Sampling rate of 8 kHz and bit rate of 128 kbit/s.
+        /// </summary>
         [EnumValueString("lo")]
         Low
     }

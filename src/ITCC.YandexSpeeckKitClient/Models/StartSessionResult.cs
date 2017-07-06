@@ -6,24 +6,51 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using ITCC.YandexSpeeckKitClient.Enums;
 using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using JetBrains.Annotations;
 
 namespace ITCC.YandexSpeeckKitClient.Models
 {
+    /// <summary>
+    /// Start speech recognotion session response.
+    /// </summary>
     public class StartSessionResult
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public TransportStatus TransportStatus { get; }
+
+        /// <summary>
+        /// The response code.
+        /// </summary>
         public ResponseCode ResponseCode { get; }
+
+        /// <summary>
+        /// Error message text. Included in the response if the response code is something other than 200.
+        /// </summary>
         public string ApiErrorMessage { get; }
+
+        /// <summary>
+        /// The session ID. Specify this ID when contacting tech support.
+        /// </summary>
         public string SessionId { get; }
 
+        /// <summary>
+        /// Contains server hello response.
+        /// </summary>
         public string ServerHelloResponse { get; }
 
+        /// <summary>
+        /// Specifies socker error if TransportStatus = SocketError.
+        /// </summary>
         public SocketError? SocketError { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string TransportErrorMessage { get; }
 
 
-        internal StartSessionResult([NotNull] ConnectionResponseMessage connectionResponseMessage)
+        internal StartSessionResult(ConnectionResponseMessage connectionResponseMessage)
         {
             if (connectionResponseMessage == null)
                 throw new ArgumentNullException(nameof(connectionResponseMessage));
@@ -34,15 +61,15 @@ namespace ITCC.YandexSpeeckKitClient.Models
             ApiErrorMessage = connectionResponseMessage.Message;
             SessionId = connectionResponseMessage.SessionId;
         }
-        internal StartSessionResult([NotNull] AuthenticationException authenticationException)
+        internal StartSessionResult(AuthenticationException authenticationException)
         {
             if (authenticationException == null)
                 throw new ArgumentNullException(nameof(authenticationException));
 
-            TransportStatus = TransportStatus.CryptographyError;
+            TransportStatus = TransportStatus.SslNegotiationError;
             TransportErrorMessage = authenticationException.Message;
         }
-        internal StartSessionResult([NotNull] SocketException socketException)
+        internal StartSessionResult(SocketException socketException)
         {
             if (socketException == null)
                 throw new ArgumentNullException(nameof(socketException));

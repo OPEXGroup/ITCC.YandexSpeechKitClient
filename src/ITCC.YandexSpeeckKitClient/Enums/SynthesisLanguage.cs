@@ -5,14 +5,32 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Language of speech to synthesize.
+    /// </summary>
     public enum SynthesisLanguage
     {
+        /// <summary>
+        /// Russian
+        /// </summary>
         [EnumValueString("ru-RU")]
         Russian,
+
+        /// <summary>
+        /// English
+        /// </summary>
         [EnumValueString("en-US")]
         English,
+
+        /// <summary>
+        /// Ukrainian
+        /// </summary>
         [EnumValueString("uk-UK")]
         Ukrainian,
+
+        /// <summary>
+        /// Turkish
+        /// </summary>
         [EnumValueString("tr-R")]
         Turkish
     }

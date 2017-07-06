@@ -5,11 +5,21 @@ using ITCC.YandexSpeeckKitClient.Attributes;
 
 namespace ITCC.YandexSpeeckKitClient.Enums
 {
+    /// <summary>
+    /// Indicators for the gender biometric.
+    /// </summary>
     [EnumNameString("gender")]
     public enum Gender
     {
+        /// <summary>
+        /// The speaker is male.
+        /// </summary>
         [EnumValueString("male")]
         Male,
+
+        /// <summary>
+        /// The speaker is female.
+        /// </summary>
         [EnumValueString("female")]
         Female
     }

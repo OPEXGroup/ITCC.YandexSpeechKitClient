@@ -6,11 +6,21 @@ using System.Xml.Serialization;
 
 namespace ITCC.YandexSpeeckKitClient.MessageModels.HttpMode
 {
+    /// <summary>
+    /// Recognition result message.
+    /// </summary>
     [XmlRoot(ElementName = "recognitionResults")]
     public class RecognitionResultsMessage
     {
+        /// <summary>
+        /// Indicates if recognition succeeded.
+        /// </summary>
         [XmlAttribute(AttributeName = "success")]
         public bool Success { get; set; }
+
+        /// <summary>
+        /// List of utterance hypothesis. Property is not null if recognition succeed.
+        /// </summary>
         [XmlElement(ElementName = "variant")]
         public List<VariantMessage> Variants { get; set; }
     }

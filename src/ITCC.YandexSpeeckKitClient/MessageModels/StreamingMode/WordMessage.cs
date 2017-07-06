@@ -5,12 +5,21 @@ using ProtoBuf;
 
 namespace ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode
 {
+    /// <summary>
+    /// Word hypothesis message.
+    /// </summary>
     [ProtoContract(Name = "Word")]
-    internal class WordMessage
+    public class WordMessage
     {
+        /// <summary>
+        /// Confidence in the hypothesis for the word.
+        /// </summary>
         [ProtoMember(1, Name = "confidence", IsRequired = true)]
         public float Confidence { get; set; }
 
+        /// <summary>
+        /// Recognition result for the word.
+        /// </summary>
         [ProtoMember(2, Name = "value", IsRequired = true)]
         public string Value { get; set; }
     }

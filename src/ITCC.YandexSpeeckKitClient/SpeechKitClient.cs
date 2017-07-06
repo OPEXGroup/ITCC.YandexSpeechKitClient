@@ -78,7 +78,7 @@ namespace ITCC.YandexSpeeckKitClient
                     {
                         TransportStatus = TransportStatus.Ok,
                         StatusCode = response.StatusCode,
-                        Result = new SimpleRecognitionResult(XmlMessageSerializer.DeserializeResponse(contentStream))
+                        Result = new UtteranceRecognitionResult(XmlMessageSerializer.DeserializeResponse(contentStream))
                     };
                 }
             }
