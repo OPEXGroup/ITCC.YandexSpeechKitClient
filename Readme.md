@@ -2,12 +2,25 @@
 
 ## General
 
-The SpeechKit Cloud API is an HTTP API that allows application developers to use Yandex speech technologies. This library implements api client for .NET 4.5, .NET 4.6 and .NET Standard 1.3+.
+[The SpeechKit Cloud API](https://tech.yandex.com/speechkit/cloud/) is an HTTP API that allows application developers to use Yandex speech technologies. This library implements api client for .NET 4.5, .NET 4.6 and .NET Standard 1.3+.
 
 ## Capabilities
 
-* Speech recognition ([HTTP mode](https://tech.yandex.com/speechkit/cloud/doc/guide/concepts/asr-http-request-docpage/) / [Data Streaming mode](https://tech.yandex.com/speechkit/cloud/doc/guide/concepts/asr-protobuf-docpage))  
-* Speech synthesis  
+* Speech recognition ([HTTP mode](https://tech.yandex.com/speechkit/cloud/doc/guide/concepts/asr-http-request-docpage/) / [Data Streaming mode](https://tech.yandex.com/speechkit/cloud/doc/guide/concepts/asr-protobuf-docpage)). Supported languages:
+    * Russian  
+    * English  
+    * Ukrainian  
+    * Turkish  
+    * German  
+    * Spanish  
+    * French  
+* Speech synthesis. Supported languages:  
+    * Russian  
+    * English  
+    * Ukrainian  
+    * Turkish  
+    
+Note that some speech models are not available for all languages.
 
 ## Usage
 
