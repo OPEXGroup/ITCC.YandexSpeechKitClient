@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
@@ -36,18 +36,11 @@
     <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\net45\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net46|AnyCPU'">
-    <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\net46\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET45</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
-    <DefineConstants>NET46</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -59,14 +52,7 @@
       <Version>4.3.0</Version>
     </PackageReference>
   </ItemGroup>
-
-  
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-    <Reference Include="System.Net.Security"></Reference>
-    <Reference Include="System.Net.Http"></Reference>
-  </ItemGroup>
-  
+ 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="System.Net.Security"></Reference>
     <Reference Include="System.Net.Http"></Reference>

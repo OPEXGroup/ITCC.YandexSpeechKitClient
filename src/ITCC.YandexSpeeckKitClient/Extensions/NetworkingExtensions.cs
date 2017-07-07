@@ -48,13 +48,15 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
                 memoryStream.Write(ControlSeq, 0, ControlSeq.Length);
                 memoryStream.Write(serializedMessage, 0, serializedMessage.Length);
 
-                await memoryStream.CopyToAsync(stream, BufferSize, cancellationToken);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                await memoryStream.CopyToAsync(stream, BufferSize, cancellationToken).ConfigureAwait(false);
             }
         }
         public static async Task<TMessage> GetDeserializedMessageAsync<TMessage>(this Stream stream, CancellationToken cancellationToken)
             where TMessage : class
         {
-            var message = await stream.ReadMessageAsync(cancellationToken);
+            var message = await stream.ReadMessageAsync(cancellationToken).ConfigureAwait(false);
             return BinaryMessageSerializer.Deserialize<TMessage>(message);
         }
 
@@ -67,7 +69,7 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
                 var searchBufferLength = searchBuffer.Length;
                 while (true)
                 {
-                    var received = await stream.ReadAsync(searchBuffer, 0, searchBufferLength, cancellationToken);
+                    var received = await stream.ReadAsync(searchBuffer, 0, searchBufferLength, cancellationToken).ConfigureAwait(false);
                     if (received == 0)
                         continue;
 
@@ -77,7 +79,7 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
                         continue;
                     }
 
-                    received = await stream.ReadAsync(searchBuffer, 0, searchBufferLength, cancellationToken);
+                    received = await stream.ReadAsync(searchBuffer, 0, searchBufferLength, cancellationToken).ConfigureAwait(false);
                     if (received == 0)
                         throw new EndOfStreamException();
 
@@ -93,9 +95,8 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
             }
 
             var messageLength = sizeHexBytes.FromHexBytes();
-
             var messageBytes = new byte[messageLength];
-            var receivedBytes = await stream.ReadAsync(messageBytes, 0, messageLength, cancellationToken);
+            var receivedBytes = await stream.ReadAsync(messageBytes, 0, messageLength, cancellationToken).ConfigureAwait(false);
 
             if (receivedBytes < messageLength)
                 throw new EndOfStreamException();

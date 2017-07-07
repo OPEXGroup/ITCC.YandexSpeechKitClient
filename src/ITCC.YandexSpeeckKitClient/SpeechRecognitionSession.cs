@@ -208,33 +208,35 @@ namespace ITCC.YandexSpeeckKitClient
         {
             try
             {
-                await _tcpClient.ConnectAsync(Configuration.RecognitionEndpointAddress, GetPort(ConnectionMode));
+                await _tcpClient.ConnectAsync(Configuration.RecognitionEndpointAddress, GetPort(ConnectionMode)).ConfigureAwait(false);
 
                 switch (ConnectionMode)
                 {
                     case ConnectionMode.Secure:
                         _newtworkStream = new SslStream(_tcpClient.GetStream());
                         await ((SslStream) _newtworkStream).AuthenticateAsClientAsync(Configuration
-                            .RecognitionEndpointAddress);
+                            .RecognitionEndpointAddress).ConfigureAwait(false);
+
                         break;
                     case ConnectionMode.Insecure:
                         _newtworkStream = _tcpClient.GetStream();
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
-                var handshakeResponseString = await HandshakeAsync(cancellationToken);
+                var handshakeResponseString = await HandshakeAsync(cancellationToken).ConfigureAwait(false);
                 if (!handshakeResponseString.Contains(Configuration.HelloResponseSuccessTrigger))
                 {
                     Dispose();
                     return new StartSessionResult(handshakeResponseString);
                 }
 
-                await _newtworkStream.SendMessageAsync(ConnectionRequestMessage, cancellationToken);
-                var connectionResponse =
-                    await _newtworkStream.GetDeserializedMessageAsync<ConnectionResponseMessage>(cancellationToken);
+                await _newtworkStream.SendMessageAsync(ConnectionRequestMessage, cancellationToken).ConfigureAwait(false);
 
+                var connectionResponse =
+                    await _newtworkStream.GetDeserializedMessageAsync<ConnectionResponseMessage>(cancellationToken).ConfigureAwait(false);
 
                 StartSessionResult result;
                 if (connectionResponse.ResponseCode == ResponseCode.Ok)
