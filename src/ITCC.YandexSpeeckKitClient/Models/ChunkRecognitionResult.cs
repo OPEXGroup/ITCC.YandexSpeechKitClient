@@ -19,9 +19,14 @@ namespace ITCC.YandexSpeeckKitClient.Models
         public static ChunkRecognitionResult TimedOut { get; } = new ChunkRecognitionResult(SocketError.TimedOut);
 
         /// <summary>
+        /// Server response message suddenly ended and wasn't parsed correctly.
+        /// </summary>
+        public static ChunkRecognitionResult BrokenMessage { get; } = new ChunkRecognitionResult { TransportStatus = TransportStatus.UnexpectedEndOfMessage };
+
+        /// <summary>
         /// Network-level operation status.
         /// </summary>
-        public TransportStatus TransportStatus { get; }
+        public TransportStatus TransportStatus { get; private set; }
 
         /// <summary>
         /// Contains error description if socket erroroccured.
@@ -53,6 +58,9 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// </summary>
         public BiometryResult Biometry { get; }
 
+        private ChunkRecognitionResult()
+        {
+        }
         internal ChunkRecognitionResult(AddDataResponseMessage addDataResponseMessage)
         {
             if (addDataResponseMessage == null)

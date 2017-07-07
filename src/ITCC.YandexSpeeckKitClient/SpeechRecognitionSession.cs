@@ -175,8 +175,13 @@ namespace ITCC.YandexSpeeckKitClient
 
             try
             {
-                var response = await _newtworkStream.GetDeserializedMessageAsync<AddDataResponseMessage>(cancellationToken).ConfigureAwait(false);
+                var response = await _newtworkStream
+                    .GetDeserializedMessageAsync<AddDataResponseMessage>(cancellationToken).ConfigureAwait(false);
                 return new ChunkRecognitionResult(response);
+            }
+            catch (EndOfStreamException)
+            {
+                return ChunkRecognitionResult.BrokenMessage;
             }
             catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
             {
@@ -207,7 +212,7 @@ namespace ITCC.YandexSpeeckKitClient
                 {
                     case ConnectionMode.Secure:
                         _newtworkStream = new SslStream(_tcpClient.GetStream());
-                        await ((SslStream)_newtworkStream).AuthenticateAsClientAsync(Configuration
+                        await ((SslStream) _newtworkStream).AuthenticateAsClientAsync(Configuration
                             .RecognitionEndpointAddress);
                         break;
                     case ConnectionMode.Insecure:
@@ -245,6 +250,11 @@ namespace ITCC.YandexSpeeckKitClient
             {
                 Dispose();
                 return new StartSessionResult(authenticationException);
+            }
+            catch (EndOfStreamException)
+            {
+                Dispose();
+                return StartSessionResult.BrokenResponse;
             }
             catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
             {

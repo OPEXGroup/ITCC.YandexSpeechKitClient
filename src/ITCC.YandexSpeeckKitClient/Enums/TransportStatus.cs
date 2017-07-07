@@ -29,6 +29,11 @@ namespace ITCC.YandexSpeeckKitClient.Enums
         Timeout,
 
         /// <summary>
+        /// Response message stream suddenly ended.
+        /// </summary>
+        UnexpectedEndOfMessage,
+
+        /// <summary>
         /// Operation failed because of socket error.
         /// </summary>
         SocketError

@@ -17,7 +17,20 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Operation timed out.
         /// </summary>
-        public static StartSessionResult TimedOut { get; } = new StartSessionResult { TransportStatus = TransportStatus.Timeout, SocketError = SocketError.TimedOut };
+        public static StartSessionResult TimedOut { get; } = new StartSessionResult
+        {
+            TransportStatus = TransportStatus.Timeout,
+            SocketError = SocketError.TimedOut
+        };
+        
+        /// <summary>
+        /// Server response message suddenly ended and wasn't parsed correctly.
+        /// </summary>
+        public static StartSessionResult BrokenResponse { get; } = new StartSessionResult
+        {
+            TransportStatus = TransportStatus.UnexpectedEndOfMessage,
+            SocketError = SocketError.Success
+        };
 
         /// <summary>
         /// Speech recornition session object.

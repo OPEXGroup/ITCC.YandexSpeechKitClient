@@ -98,6 +98,9 @@ using (var client = new SpeechKitClient("apiKey", "someApplication", userId, "de
                 case TransportStatus.Timeout:
                     //Operation timed out. Timeout settings can be configured in client.
                     return;
+                case UnexpectedEndOfMessage:
+                    //Server response message suddenly ended and was't successfully parsed. Try again.
+                    return;
                 case TransportStatus.SocketError:
                     //Some network error occured. Use startSessionResult.SocketError
                     return;
