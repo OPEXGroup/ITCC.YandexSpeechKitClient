@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageProjectUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient</RepositoryUrl>
+    <Authors>VladislavPrishchepa</Authors>
+    <Company>ITCC</Company>
+    <Product>Yandex SpeeckKit client</Product>
+    <PackageTags>YandexSpeechKit SpeechRecognition SpeechSynthesis</PackageTags>
+    <Description>Cross-platform Yandex SpeechKit client.</Description>
+    <PackageReleaseNotes>First release.</PackageReleaseNotes>
+    <Copyright>Copyright (c) 2017, Vladislav Prishchepa</Copyright>
+    <PackageLicenseUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient/blob/master/Licence.md</PackageLicenseUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\build\ITCC.YandexSpeeckKitClient\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\build\ITCC.YandexSpeeckKitClient\Release</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>False</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+    <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\netstandard1.3\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\net45\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+    <DefineConstants>NETSTANDARD1_3</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>NET45</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <PackageReference Include="System.Net.Security">
+      <Version>4.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
+ 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="System.Net.Security"></Reference>
+    <Reference Include="System.Net.Http"></Reference>
+  </ItemGroup>
+
+</Project>
