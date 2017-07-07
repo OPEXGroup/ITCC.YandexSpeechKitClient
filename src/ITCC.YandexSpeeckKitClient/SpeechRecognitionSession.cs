@@ -28,7 +28,6 @@ namespace ITCC.YandexSpeeckKitClient
         private Stream _newtworkStream;
         private readonly string _applicationName;
         private readonly string _apiKey;
-        private bool _sessionStarted;
 
         #endregion
 
@@ -119,79 +118,6 @@ namespace ITCC.YandexSpeeckKitClient
         #region Public methods
 
         /// <summary>
-        /// Start new speech recognition session. If connection fails or server response code if rather than 200 session will be disposed.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
-        /// <returns></returns>
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="OperationCanceledException"></exception>
-        public async Task<StartSessionResult> StartAsync(CancellationToken cancellationToken = default(CancellationToken))
-        {
-            ThrowIfDisposed();
-
-            try
-            {
-                await _tcpClient.ConnectAsync(Configuration.RecognitionEndpointAddress, GetPort(ConnectionMode));
-
-                switch (ConnectionMode)
-                {
-                    case ConnectionMode.Secure:
-                        _newtworkStream = new SslStream(_tcpClient.GetStream());
-                        await ((SslStream)_newtworkStream).AuthenticateAsClientAsync(Configuration
-                            .RecognitionEndpointAddress);
-                        break;
-                    case ConnectionMode.Insecure:
-                        _newtworkStream = _tcpClient.GetStream();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                var handshakeResponseString = await HandshakeAsync(cancellationToken);
-                if (!handshakeResponseString.Contains(Configuration.HelloResponseSuccessTrigger))
-                    return new StartSessionResult(handshakeResponseString);
-
-                await _newtworkStream.SendMessageAsync(ConnectionRequestMessage, cancellationToken);
-                var connectionResponse =
-                    await _newtworkStream.GetDeserializedMessageAsync<ConnectionResponseMessage>(cancellationToken);
-
-                var result = new StartSessionResult(connectionResponse);
-                SessionId = result.SessionId;
-
-                if (connectionResponse.ResponseCode == ResponseCode.Ok)
-                {
-                    _sessionStarted = true;
-                }
-                else
-                {
-                    Dispose();
-                }
-
-                return result;
-            }
-            catch (AuthenticationException authenticationException)
-            {
-                Dispose();
-                return new StartSessionResult(authenticationException);
-            }
-            catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
-            {
-                Dispose();
-                return StartSessionResult.TimedOut;
-            }
-            catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
-            {
-                Dispose();
-                return StartSessionResult.TimedOut;
-            }
-            catch (SocketException socketException)
-            {
-                Dispose();
-                return new StartSessionResult(socketException.SocketErrorCode, socketException.Message);
-            }
-        }
-
-        /// <summary>
         /// Send new chunk ou audio data to recognize.
         /// </summary>
         /// <param name="data">Binary audio data.</param>
@@ -206,8 +132,6 @@ namespace ITCC.YandexSpeeckKitClient
         {
             if (data.Length > 1024 * 1024)
                 throw new ArgumentOutOfRangeException(nameof(data), data.Length, "Chunk size must be less than 1 MB.");
-            if (!_sessionStarted)
-                throw new InvalidOperationException($"Session must be started before {nameof(SendChunkAsync)} call.");
 
             ThrowIfDisposed();
 
@@ -247,9 +171,6 @@ namespace ITCC.YandexSpeeckKitClient
         /// <exception cref="OperationCanceledException"></exception>
         public async Task<ChunkRecognitionResult> ReceiveRecognitionResultAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!_sessionStarted)
-                throw new InvalidOperationException($"Session must be started before {nameof(ReceiveRecognitionResultAsync)} call.");
-
             ThrowIfDisposed();
 
             try
@@ -274,8 +195,73 @@ namespace ITCC.YandexSpeeckKitClient
 
         #endregion
 
-        #region Private methods
+        #region Non-public methods
 
+        internal async Task<StartSessionResult> StartAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                await _tcpClient.ConnectAsync(Configuration.RecognitionEndpointAddress, GetPort(ConnectionMode));
+
+                switch (ConnectionMode)
+                {
+                    case ConnectionMode.Secure:
+                        _newtworkStream = new SslStream(_tcpClient.GetStream());
+                        await ((SslStream)_newtworkStream).AuthenticateAsClientAsync(Configuration
+                            .RecognitionEndpointAddress);
+                        break;
+                    case ConnectionMode.Insecure:
+                        _newtworkStream = _tcpClient.GetStream();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                var handshakeResponseString = await HandshakeAsync(cancellationToken);
+                if (!handshakeResponseString.Contains(Configuration.HelloResponseSuccessTrigger))
+                    return new StartSessionResult(handshakeResponseString);
+
+                await _newtworkStream.SendMessageAsync(ConnectionRequestMessage, cancellationToken);
+                var connectionResponse =
+                    await _newtworkStream.GetDeserializedMessageAsync<ConnectionResponseMessage>(cancellationToken);
+
+
+                StartSessionResult result;
+
+                if (connectionResponse.ResponseCode == ResponseCode.Ok)
+                {
+                    result = new StartSessionResult(connectionResponse, this);
+                }
+                else
+                {
+                    result = new StartSessionResult(connectionResponse, null);
+                    Dispose();
+                }
+                SessionId = result.SessionId;
+
+                return result;
+            }
+            catch (AuthenticationException authenticationException)
+            {
+                Dispose();
+                return new StartSessionResult(authenticationException);
+            }
+            catch (IOException ioException) when (ioException.InnerException is SocketException socketException && socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                Dispose();
+                return StartSessionResult.TimedOut;
+            }
+            catch (SocketException socketException) when (socketException.SocketErrorCode == SocketError.TimedOut)
+            {
+                Dispose();
+                return StartSessionResult.TimedOut;
+            }
+            catch (SocketException socketException)
+            {
+                Dispose();
+                return new StartSessionResult(socketException.SocketErrorCode, socketException.Message);
+            }
+        }
         private static int GetPort(ConnectionMode connectionMode)
         {
             switch (connectionMode)

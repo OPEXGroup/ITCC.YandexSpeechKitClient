@@ -44,7 +44,7 @@ namespace ITCC.YandexSpeeckKitClient.Utils
                 return list.Aggregate(0, (current, elem) => current | (int)elem);
             }
 
-            return dictionary.Values.All(value => value?.Name != name) ? null : dictionary.First(keyValuePair => keyValuePair.Value.Name == name).Key;
+            return dictionary.Values.All(value => value?.Name != name) ? null : dictionary.FirstOrDefault(keyValuePair => keyValuePair.Value.Name == name).Key;
         }
         public static TEnum GetEnumElementByName<TEnum>(this string name)
         {

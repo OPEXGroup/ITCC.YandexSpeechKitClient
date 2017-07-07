@@ -52,11 +52,14 @@ namespace ITCC.YandexSpeeckKitClient
         /// <param name="text">The text to produce speech for.</param>
         /// <param name="speed">The speed (tempo) of the synthesized speech. Must be in range from 0.1 to 3.</param>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public SynthesisOptions(string text, double speed = 1.0)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (text == null)
                 throw new ArgumentNullException(nameof(text));
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentException(nameof(text));
             if (speed < 0.1 || speed > 3.0)
                 throw new ArgumentOutOfRangeException(nameof(speed), speed, "Speed must be in range from 0.1 to 3.");
 

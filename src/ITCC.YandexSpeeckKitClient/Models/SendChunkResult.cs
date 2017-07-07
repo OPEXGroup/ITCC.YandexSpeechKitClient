@@ -19,7 +19,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Data uploading timed out.
         /// </summary>
-        public static SendChunkResult TimedOut { get; } = new SendChunkResult(System.Net.Sockets.SocketError.TimedOut);
+        public static SendChunkResult TimedOut { get; } = new SendChunkResult(SocketError.TimedOut);
 
         /// <summary>
         /// Operation status.
@@ -29,23 +29,17 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Contains error description if socker error occures.
         /// </summary>
-        public SocketError? SocketError { get; }
+        public SocketError SocketError { get; }
 
         private SendChunkResult()
         {
             TransportStatus = TransportStatus.Ok;
+            SocketError = SocketError.Success;
         }
         internal SendChunkResult(SocketError socketError)
         {
-            if (socketError == System.Net.Sockets.SocketError.TimedOut)
-            {
-                TransportStatus = TransportStatus.Timeout;
-            }
-            else
-            {
-                TransportStatus = TransportStatus.SocketError;
-                SocketError = socketError;
-            }
+            SocketError = socketError;
+            TransportStatus = socketError == SocketError.TimedOut ? TransportStatus.Timeout : TransportStatus.SocketError;
         }
     }
 }

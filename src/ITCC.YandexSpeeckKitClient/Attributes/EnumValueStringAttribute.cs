@@ -5,14 +5,17 @@ using System;
 
 namespace ITCC.YandexSpeeckKitClient.Attributes
 {
+    [AttributeUsage(AttributeTargets.Field)]
     internal class EnumValueStringAttribute : Attribute
     {
         public string Name { get; }
 
         public EnumValueStringAttribute(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (name == null)
                 throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(nameof(name));
 
             Name = name;
         }

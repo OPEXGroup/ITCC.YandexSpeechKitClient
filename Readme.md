@@ -55,59 +55,52 @@ Speech recognition begins only after all the audio data has been transmitted to 
 
 If you want to receive intermediate result during recognition or advanced information (skeaker age group, detected language, recognition confidence of each word in phrase etc.) - use data streaming mode.
 
-First of all, create speech recognition session:
+First of all, start new speech recognition session:
 
 ```
 using (var client = new SpeechKitClient("apiKey", "someApplication", userId, "device"))
 {
+
     var sessionOptions = new SpeechRecognitionSessionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K)
     {
         Language = RecognitionLanguage.Russian,
         BiometryParameters = BiometryParameters.Gender | BiometryParameters.Group,
-        Position = new Position(10, 10)
+        Position = new Position(latitude, longitude)
     };
 
-    using (var session = client.CreateSpeechRecognitionSession(ConnectionMode.Secure, sessionOptions))
-    {
-        ...
-    }
-}
-```
-
-Next, start it:
-```
- try
- {
-    var startSessionResult = await session.StartAsync(cancellationToken).ConfigureAwait(false);
-    switch (startSessionResult.TransportStatus)
-    {
-        case TransportStatus.Ok:
-            //Session started, 
-            break;
-        case TransportStatus.UnexpectedServerResponse:
-            //This means API was changed.
-            return;
-        case TransportStatus.SslNegotiationError:
-            //Unable to create ssl connection - possible ssl certificate substitution.
-            return;
-        case TransportStatus.Timeout:
-            //Operation timed out. Timeout settings can be configured in client.
-            return;
-        case TransportStatus.SocketError:
-            //Some network error occured. Use startSessionResult.SocketError
-            return;
-        default:
-            throw new ArgumentOutOfRangeException();
-    }
-}
-catch (OperationCanceledException)
-{
-    //Handle operation cancellation
+        try
+        {
+            var startSessionResult = await client.StartNewSpeechRecognitionSessionAsync(ConnectionMode.Secure, sessionOptions, token).ConfigureAwait(false);
+            switch (startSessionResult.TransportStatus)
+            {
+                case TransportStatus.Ok:
+                    //Session started, use startSessionResult.Session
+                    break;
+                case TransportStatus.UnexpectedServerResponse:
+                    //This means API was changed.
+                    return;
+                case TransportStatus.SslNegotiationError:
+                    //Unable to create ssl connection - possible ssl certificate substitution.
+                    return;
+                case TransportStatus.Timeout:
+                    //Operation timed out. Timeout settings can be configured in client.
+                    return;
+                case TransportStatus.SocketError:
+                    //Some network error occured. Use startSessionResult.SocketError
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            //Handle operation cancellation
+        }
 }
 ```
 
 **[Note]** If session start fails, session will be **automatically disposed**.
-If session successfully started, `session.SendChunkAsync` and `session.GetResponseAsync` could be used. Moreover, this operation sets `session.SessionId` value which you can use to contact tech support.
+If session successfully started, `session.SendChunkAsync` and `session.ReceiveRecognitionResultAsync` could be used.
 
 To send data chunk, use
 ```
@@ -132,10 +125,10 @@ Speech synthesis (text-to-speech) is the process of generating speech from print
 To convert text to speech, use:
 
 ```
-var options = new SynthesisOptions("Говорим вот тот текст", 1.4)
+var options = new SynthesisOptions("Text to be spoken", 1.4)
 {
     AudioFormat = SynthesisAudioFormat.Wav,
-    Language = SynthesisLanguage.Russian,
+    Language = SynthesisLanguage.English,
     Emotion = Emotion.Neutral,
     Quality = SynthesisQuality.High,
     Speaker = Speaker.Alyss

@@ -12,6 +12,7 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
     {
         private const byte CarriageReturn = 0x0d;
         private const byte LineFeed = 0x0a;
+        private const int BufferSize = 81920;
 
         private static readonly byte[] ControlSeq = { CarriageReturn, LineFeed };
 
@@ -34,9 +35,21 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
                 return ms.ToArray();
             }
         }
-        public static Task SendMessageAsync(this Stream stream, object messageObject, CancellationToken cancellationToken)
+        public static async Task SendMessageAsync(this Stream stream, object messageObject, CancellationToken cancellationToken)
         {
-            return stream.WriteMessageAsync(messageObject, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var serializedMessage = BinaryMessageSerializer.Serialize(messageObject);
+            var sizeBytes = serializedMessage.Length.ToHexBytes();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                memoryStream.Write(sizeBytes, 0, sizeBytes.Length);
+                memoryStream.Write(ControlSeq, 0, ControlSeq.Length);
+                memoryStream.Write(serializedMessage, 0, serializedMessage.Length);
+
+                await memoryStream.CopyToAsync(stream, BufferSize, cancellationToken);
+            }
         }
         public static async Task<TMessage> GetDeserializedMessageAsync<TMessage>(this Stream stream, CancellationToken cancellationToken)
             where TMessage : class
@@ -45,17 +58,6 @@ namespace ITCC.YandexSpeeckKitClient.Extensions
             return BinaryMessageSerializer.Deserialize<TMessage>(message);
         }
 
-        private static async Task WriteMessageAsync(this Stream stream, object messageObject, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var serializedMessage = BinaryMessageSerializer.Serialize(messageObject);
-            var sizeBytes = serializedMessage.Length.ToHexBytes();
-
-            await stream.WriteAsync(sizeBytes, 0, sizeBytes.Length, cancellationToken);
-            await stream.WriteAsync(ControlSeq, 0, ControlSeq.Length, cancellationToken);
-            await stream.WriteAsync(serializedMessage, 0, serializedMessage.Length, cancellationToken);
-        }
         private static async Task<byte[]> ReadMessageAsync(this Stream stream, CancellationToken cancellationToken)
         {
             byte[] sizeHexBytes;

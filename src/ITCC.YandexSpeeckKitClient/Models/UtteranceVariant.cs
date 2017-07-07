@@ -14,7 +14,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Confidence of hypothesis.
         /// </summary>
-        public double Confidence { get; }
+        public float Confidence { get; }
 
         /// <summary>
         /// The normalized recognized text. In a normalized text, numbers are written as digits, and punctuation and abbreviations are included.

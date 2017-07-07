@@ -16,7 +16,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Operation timed out.
         /// </summary>
-        public static ChunkRecognitionResult TimedOut { get; } = new ChunkRecognitionResult(System.Net.Sockets.SocketError.TimedOut);
+        public static ChunkRecognitionResult TimedOut { get; } = new ChunkRecognitionResult(SocketError.TimedOut);
 
         /// <summary>
         /// Network-level operation status.
@@ -26,7 +26,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Contains error description if socket erroroccured.
         /// </summary>
-        public SocketError? SocketError { get; }
+        public SocketError SocketError { get; }
 
         /// <summary>
         /// Code of the server response.
@@ -60,6 +60,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
 
             TransportStatus = TransportStatus.Ok;
             ResponseCode = addDataResponseMessage.ResponseCode;
+            SocketError = SocketError.Success;
 
             if (ResponseCode != ResponseCode.Ok)
                 return;
@@ -75,15 +76,8 @@ namespace ITCC.YandexSpeeckKitClient.Models
         }
         internal ChunkRecognitionResult(SocketError socketError)
         {
-            if (socketError == System.Net.Sockets.SocketError.TimedOut)
-            {
-                TransportStatus = TransportStatus.Timeout;
-            }
-            else
-            {
-                TransportStatus = TransportStatus.SocketError;
-                SocketError = socketError;
-            }
+            SocketError = socketError;
+            TransportStatus = socketError == SocketError.TimedOut ? TransportStatus.Timeout : TransportStatus.SocketError;
         }
     }
 }

@@ -11,8 +11,10 @@ namespace ITCC.YandexSpeeckKitClient.Attributes
         public string Name { get; }
         public EnumNameStringAttribute(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (name == null)
                 throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(nameof(name));
 
             Name = name;
         }

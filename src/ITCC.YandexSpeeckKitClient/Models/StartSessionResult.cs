@@ -14,11 +14,18 @@ namespace ITCC.YandexSpeeckKitClient.Models
     /// </summary>
     public class StartSessionResult
     {
-
-        public static StartSessionResult TimedOut { get; } = new StartSessionResult { TransportStatus = TransportStatus.Timeout };
+        /// <summary>
+        /// Operation timed out.
+        /// </summary>
+        public static StartSessionResult TimedOut { get; } = new StartSessionResult { TransportStatus = TransportStatus.Timeout, SocketError = SocketError.TimedOut };
 
         /// <summary>
-        /// 
+        /// Speech recornition session object.
+        /// </summary>
+        public SpeechRecognitionSession Session { get; }
+
+        /// <summary>
+        /// Network-level operation status.
         /// </summary>
         public TransportStatus TransportStatus { get; private set; }
 
@@ -45,7 +52,7 @@ namespace ITCC.YandexSpeeckKitClient.Models
         /// <summary>
         /// Specifies socker error if TransportStatus = SocketError.
         /// </summary>
-        public SocketError? SocketError { get; }
+        public SocketError SocketError { get; private set; }
 
         /// <summary>
         /// 
@@ -55,16 +62,19 @@ namespace ITCC.YandexSpeeckKitClient.Models
         private StartSessionResult()
         {
         }
-        internal StartSessionResult(ConnectionResponseMessage connectionResponseMessage)
+        internal StartSessionResult(ConnectionResponseMessage connectionResponseMessage, SpeechRecognitionSession session)
         {
             if (connectionResponseMessage == null)
                 throw new ArgumentNullException(nameof(connectionResponseMessage));
 
             TransportStatus = TransportStatus.Ok;
-
+            SocketError = SocketError.Success;
             ResponseCode = connectionResponseMessage.ResponseCode;
             ApiErrorMessage = connectionResponseMessage.Message;
             SessionId = connectionResponseMessage.SessionId;
+
+            if (ResponseCode == ResponseCode.Ok)
+                Session = session ?? throw new ArgumentNullException(nameof(session));
         }
         internal StartSessionResult(AuthenticationException authenticationException)
         {
@@ -72,23 +82,26 @@ namespace ITCC.YandexSpeeckKitClient.Models
                 throw new ArgumentNullException(nameof(authenticationException));
 
             TransportStatus = TransportStatus.SslNegotiationError;
+            SocketError = SocketError.Success;
             TransportErrorMessage = authenticationException.Message;
         }
         internal StartSessionResult(SocketError socketError, string errorMmessage)
         {
-            if (socketError == System.Net.Sockets.SocketError.TimedOut)
+            SocketError = socketError;
+
+            if (socketError == SocketError.TimedOut)
             {
                 TransportStatus = TransportStatus.Timeout;
                 return;
             }
 
             TransportStatus = TransportStatus.SocketError;
-            SocketError = socketError;
             TransportErrorMessage = errorMmessage;
         }
         internal StartSessionResult(string response)
         {
             TransportStatus = TransportStatus.UnexpectedServerResponse;
+            SocketError = SocketError.Success;
             ServerHelloResponse = response;
         }
     }

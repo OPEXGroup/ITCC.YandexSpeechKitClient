@@ -42,6 +42,7 @@ namespace ITCC.YandexSpeeckKitClient
         /// <param name="userId">User's identifier.</param>
         /// <param name="device">The type of device running the client application.</param>
         /// <param name="timeout">Data streaming operation's timeout.</param>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         public SpeechKitClient(string apiKey, string applicationName, Guid userId, string device, TimeSpan timeout)
             : this(apiKey, applicationName, userId, device, (int) timeout.TotalMilliseconds)
@@ -56,20 +57,24 @@ namespace ITCC.YandexSpeeckKitClient
         /// <param name="userId">User's identifier.</param>
         /// <param name="device">The type of device running the client application.</param>
         /// <param name="timeout">Data streaming operation's timeout in milliseconds.</param>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         public SpeechKitClient(string apiKey, string applicationName, Guid userId, string device, int timeout = Configuration.DefaultTimeout)
         {
-            _apiKey = string.IsNullOrWhiteSpace(apiKey) 
-                ? throw new ArgumentNullException(nameof(apiKey)) 
-                : apiKey;
+            _apiKey = apiKey== null ? throw new ArgumentNullException(nameof(apiKey)) 
+                : string.IsNullOrWhiteSpace(apiKey) 
+                    ? throw new ArgumentException(nameof(apiKey)) 
+                    : apiKey;
 
-            _applicationName = string.IsNullOrWhiteSpace(applicationName) 
-                ? throw new ArgumentNullException(nameof(applicationName)) 
-                : applicationName;
+            _applicationName = applicationName == null ? throw new ArgumentNullException(nameof(applicationName)) 
+                : string.IsNullOrWhiteSpace(applicationName) 
+                    ? throw new ArgumentException(nameof(applicationName)) 
+                    : applicationName;
 
-            _device = string.IsNullOrWhiteSpace(device)
-                ? throw new ArgumentNullException(nameof(device))
-                : device;
+            _device = device == null ? throw new ArgumentNullException(nameof(device)) 
+                : string.IsNullOrWhiteSpace(device)
+                    ? throw new ArgumentException(nameof(device))
+                    : device;
 
             _userId = userId;
             _timeout = timeout;
@@ -204,20 +209,21 @@ namespace ITCC.YandexSpeeckKitClient
         }
 
         /// <summary>
-        /// Create new speech recognition session in data streaming mode.
+        /// Start new speech recognition session in data streaming mode.
         /// </summary>
         /// <param name="connectionMode">Network security settings.</param>
         /// <param name="options">Recognition settings.</param>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public SpeechRecognitionSession CreateSpeechRecognitionSession(ConnectionMode connectionMode, SpeechRecognitionSessionOptions options)
+        /// <exception cref="OperationCanceledException"></exception>
+        public Task<StartSessionResult> StartNewSpeechRecognitionSessionAsync(ConnectionMode connectionMode, SpeechRecognitionSessionOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
             ThrowIfDisposed();
 
-            return new SpeechRecognitionSession(
+            var session = new SpeechRecognitionSession(
                 _applicationName,
                 _apiKey,
                 _userId,
@@ -225,6 +231,8 @@ namespace ITCC.YandexSpeeckKitClient
                 connectionMode,
                 options,
                 _timeout);
+
+            return session.StartAsync(cancellationToken);
         }
 
         #endregion
