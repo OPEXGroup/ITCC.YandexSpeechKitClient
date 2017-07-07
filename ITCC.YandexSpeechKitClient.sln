@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITCC.YandexSpeeckKitClient", "src\ITCC.YandexSpeeckKitClient\ITCC.YandexSpeeckKitClient.csproj", "{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITCC.YandexSpeechKitClient", "src\ITCC.YandexSpeechKitClient\ITCC.YandexSpeechKitClient.csproj", "{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{93B1BBC9-A39A-4B6E-AD07-44326E05DD11}"
 EndProject

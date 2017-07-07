@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient</RepositoryUrl>
     <Authors>VladislavPrishchepa</Authors>
     <Company>ITCC</Company>
-    <Product>Yandex SpeeckKit client</Product>
+    <Product>Yandex SpeechKit client</Product>
     <PackageTags>YandexSpeechKit SpeechRecognition SpeechSynthesis</PackageTags>
     <Description>Cross-platform Yandex SpeechKit client.</Description>
     <PackageReleaseNotes>First release.</PackageReleaseNotes>
@@ -19,21 +19,21 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\build\ITCC.YandexSpeeckKitClient\Debug</OutputPath>
+    <OutputPath>..\..\build\ITCC.YandexSpeechKitClient\Debug</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\build\ITCC.YandexSpeeckKitClient\Release</OutputPath>
+    <OutputPath>..\..\build\ITCC.YandexSpeechKitClient\Release</OutputPath>
     <DebugType>none</DebugType>
     <DebugSymbols>False</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
-    <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\netstandard1.3\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\ITCC.YandexSpeechKitClient\Release\netstandard1.3\ITCC.YandexSpeechKitClient.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-    <DocumentationFile>..\..\build\ITCC.YandexSpeeckKitClient\Release\net45\ITCC.YandexSpeeckKitClient.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\ITCC.YandexSpeechKitClient\Release\net45\ITCC.YandexSpeechKitClient.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
