@@ -87,15 +87,17 @@ namespace ITCC.YandexSpeeckKitClient
             string apiKey,
             Guid userId,
             string device,
-            ConnectionMode connectionMode,
             SpeechRecognitionSessionOptions options,
             int timeout)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             _apiKey = apiKey;
             UserId = userId;
             Device = device;
-            ConnectionMode = connectionMode;
 
+            ConnectionMode = options.ConnectionMode;
             SpeechModel = options.SpeechModel;
             AudioFormat = options.AudioFormat;
             Language = options.Language;
@@ -224,7 +226,10 @@ namespace ITCC.YandexSpeeckKitClient
 
                 var handshakeResponseString = await HandshakeAsync(cancellationToken);
                 if (!handshakeResponseString.Contains(Configuration.HelloResponseSuccessTrigger))
+                {
+                    Dispose();
                     return new StartSessionResult(handshakeResponseString);
+                }
 
                 await _newtworkStream.SendMessageAsync(ConnectionRequestMessage, cancellationToken);
                 var connectionResponse =
@@ -232,16 +237,16 @@ namespace ITCC.YandexSpeeckKitClient
 
 
                 StartSessionResult result;
-
                 if (connectionResponse.ResponseCode == ResponseCode.Ok)
                 {
-                    result = new StartSessionResult(connectionResponse, this);
+                    result = new StartSessionResult(connectionResponse, this); 
                 }
                 else
                 {
                     result = new StartSessionResult(connectionResponse, null);
                     Dispose();
                 }
+
                 SessionId = result.SessionId;
 
                 return result;

@@ -24,6 +24,11 @@ Note that some speech models are not available for all languages.
 
 ## Usage
 
+Use `SpeechKitClientOptions` class to configure basic API access parameters:
+```
+var apiSetttings = new SpeechKitClientOptions("apiKey", "someApplication", Guid.Empty, "device");
+```
+
 ### Speech recognition
 
 Automatic speech recognition is the process of turning speech into text. Yandex SpeechKit Cloud makes it possible to recognize spontaneous speech in multiple languages.
@@ -33,7 +38,7 @@ Automatic speech recognition is the process of turning speech into text. Yandex 
 Use HTTP mode for simple speech-to-text conversion if you want just convert one audio file to text without intermediate results or analytics:
 
 ```
-using (var client = new SpeechKitClient("apiKey", "someApplication", userId, "device"))
+using (var client = new SpeechKitClient(apiSetttings))
 {
     var speechRecognitionOptions = new SpeechRecognitionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K, RecognitionLanguage.Russian);
     try
@@ -71,51 +76,48 @@ If you want to receive intermediate result during recognition or advanced inform
 First of all, start new speech recognition session:
 
 ```
-using (var client = new SpeechKitClient("apiKey", "someApplication", userId, "device"))
+var sessionOptions = new SpeechRecognitionSessionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K)
 {
+    Language = RecognitionLanguage.Russian,
+    BiometryParameters = BiometryParameters.Gender | BiometryParameters.Group,
+    Position = new Position(latitude, longitude)
+};
 
-    var sessionOptions = new SpeechRecognitionSessionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K)
+try
+{
+    var startSessionResult = await await SpeechRecognitionSessionFactory.CreateNewSpeechRecognitionSessionAsync(apiSetttingse, sessionOptions, token).ConfigureAwait(false);
+    switch (startSessionResult.TransportStatus)
     {
-        Language = RecognitionLanguage.Russian,
-        BiometryParameters = BiometryParameters.Gender | BiometryParameters.Group,
-        Position = new Position(latitude, longitude)
-    };
-
-        try
-        {
-            var startSessionResult = await client.StartNewSpeechRecognitionSessionAsync(ConnectionMode.Secure, sessionOptions, token).ConfigureAwait(false);
-            switch (startSessionResult.TransportStatus)
-            {
-                case TransportStatus.Ok:
-                    //Session started, use startSessionResult.Session
-                    break;
-                case TransportStatus.UnexpectedServerResponse:
-                    //This means API was changed.
-                    return;
-                case TransportStatus.SslNegotiationError:
-                    //Unable to create ssl connection - possible ssl certificate substitution.
-                    return;
-                case TransportStatus.Timeout:
-                    //Operation timed out. Timeout settings can be configured in client.
-                    return;
-                case UnexpectedEndOfMessage:
-                    //Server response message suddenly ended and was't successfully parsed. Try again.
-                    return;
-                case TransportStatus.SocketError:
-                    //Some network error occured. Use startSessionResult.SocketError
-                    return;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            //Handle operation cancellation
-        }
+        case TransportStatus.Ok:
+            //Session started, use startSessionResult.Session
+            break;
+        case TransportStatus.UnexpectedServerResponse:
+            //This means API was changed.
+            return;
+        case TransportStatus.SslNegotiationError:
+            //Unable to create ssl connection - possible ssl certificate substitution.
+            return;
+        case TransportStatus.Timeout:
+            //Operation timed out. Timeout settings can be configured in client.
+            return;
+        case UnexpectedEndOfMessage:
+            //Server response message suddenly ended and was't successfully parsed. Try again.
+            return;
+        case TransportStatus.SocketError:
+            //Some network error occured. Use startSessionResult.SocketError
+            return;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+}
+catch (OperationCanceledException)
+{
+    //Handle operation cancellation
 }
 ```
 
-**[Note]** If session start fails, session will be **automatically disposed**.
+If session start fails, session sould be disposed. Check parameters and retry attempt.
+
 If session successfully started, `session.SendChunkAsync` and `session.ReceiveRecognitionResultAsync` could be used.
 
 To send data chunk, use
@@ -141,23 +143,26 @@ Speech synthesis (text-to-speech) is the process of generating speech from print
 To convert text to speech, use:
 
 ```
-var options = new SynthesisOptions("Text to be spoken", 1.4)
+using (var client = new SpeechKitClient(apiSetttings))
 {
-    AudioFormat = SynthesisAudioFormat.Wav,
-    Language = SynthesisLanguage.English,
-    Emotion = Emotion.Neutral,
-    Quality = SynthesisQuality.High,
-    Speaker = Speaker.Alyss
-};
-
-using (var textToSpechResult = await client.TextToSpeechAsync(options, cancellationToken).ConfigureAwait(false))
-{
-    if (textToSpechResult.TransportStatus != TransportStatus.Ok || textToSpechResult.ResponseCode != HttpStatusCode.OK)
+    var options = new SynthesisOptions("Text to be spoken", 1.4)
     {
-        //handle network and request parameters errors
-    }
+        AudioFormat = SynthesisAudioFormat.Wav,
+        Language = SynthesisLanguage.English,
+        Emotion = Emotion.Neutral,
+        Quality = SynthesisQuality.High,
+        Speaker = Speaker.Alyss
+    };
 
-    // textToSpechResult.Result contains generated audio data
+    using (var textToSpechResult = await client.TextToSpeechAsync(options, cancellationToken).ConfigureAwait(false))
+    {
+        if (textToSpechResult.TransportStatus != TransportStatus.Ok || textToSpechResult.ResponseCode != HttpStatusCode.OK)
+        {
+            //handle network and request parameters errors
+        }
+
+        // textToSpechResult.Result contains generated audio data
+    }
 }
 ```
 

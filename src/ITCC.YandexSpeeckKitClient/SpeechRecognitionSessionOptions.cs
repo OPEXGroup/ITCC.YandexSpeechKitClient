@@ -22,6 +22,11 @@ namespace ITCC.YandexSpeeckKitClient
         public RecognitionAudioFormat AudioFormat { get; }
 
         /// <summary>
+        /// Network security settings.
+        /// </summary>
+        public ConnectionMode ConnectionMode { get; }
+
+        /// <summary>
         /// The language for speech recognition.
         /// </summary>
         public RecognitionLanguage Language { get; set; } = RecognitionLanguage.Russian;
@@ -41,10 +46,12 @@ namespace ITCC.YandexSpeeckKitClient
         /// </summary>
         /// <param name="speechModel">The language model to use for recognition.</param>
         /// <param name="audioFormat">The audio format.</param>
-        public SpeechRecognitionSessionOptions(SpeechModel speechModel, RecognitionAudioFormat audioFormat)
+        /// <param name="connectionMode">Network security settings.</param>
+        public SpeechRecognitionSessionOptions(SpeechModel speechModel, RecognitionAudioFormat audioFormat, ConnectionMode connectionMode = ConnectionMode.Secure)
         {
             SpeechModel = speechModel;
             AudioFormat = audioFormat;
+            ConnectionMode = connectionMode;
         }
     }
 }
