@@ -85,7 +85,7 @@ var sessionOptions = new SpeechRecognitionSessionOptions(SpeechModel.Queries, Re
 
 try
 {
-    var startSessionResult = await await SpeechRecognitionSessionFactory.CreateNewSpeechRecognitionSessionAsync(apiSetttingse, sessionOptions, token).ConfigureAwait(false);
+    var startSessionResult = await SpeechRecognitionSessionFactory.CreateNewSpeechRecognitionSessionAsync(apiSetttingse, sessionOptions, token).ConfigureAwait(false);
     switch (startSessionResult.TransportStatus)
     {
         case TransportStatus.Ok:
