@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient</PackageProjectUrl>
     <RepositoryUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient</RepositoryUrl>
     <Authors>VladislavPrishchepa</Authors>
@@ -12,7 +12,7 @@
     <Product>Yandex SpeechKit client</Product>
     <PackageTags>YandexSpeechKit SpeechRecognition SpeechSynthesis</PackageTags>
     <Description>Cross-platform Yandex SpeechKit client.</Description>
-    <PackageReleaseNotes>First release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Namespaces aligned.</PackageReleaseNotes>
     <Copyright>Copyright (c) 2017, Vladislav Prishchepa</Copyright>
     <PackageLicenseUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient/blob/master/Licence.md</PackageLicenseUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
