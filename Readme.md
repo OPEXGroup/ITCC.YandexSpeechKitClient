@@ -1,5 +1,7 @@
 # ITCC Yandex SpeechKit client
 
+[![NuGet version](https://badge.fury.io/nu/ITCC.YandexSpeechKitClient.svg)](https://badge.fury.io/nu/ITCC.YandexSpeechKitClient)
+
 ## General
 
 [The SpeechKit Cloud API](https://tech.yandex.com/speechkit/cloud/) is an HTTP API that allows application developers to use Yandex speech technologies. This library implements api client for .NET 4.5+ and .NET Standard 1.3+.
