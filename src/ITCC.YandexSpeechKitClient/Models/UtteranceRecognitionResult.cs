@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ITCC.YandexSpeeckKitClient.MessageModels.HttpMode;
+using ITCC.YandexSpeechKitClient.MessageModels.HttpMode;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Simple utterance recognotion result.

@@ -3,7 +3,7 @@
 
 using ProtoBuf;
 
-namespace ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode
+namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
     /// Speech recognition request message.

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace ITCC.YandexSpeeckKitClient
+namespace ITCC.YandexSpeechKitClient
 {
     /// <summary>
     /// SpeechKit Cloud API access options.

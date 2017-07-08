@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ITCC.YandexSpeeckKitClient.Extensions;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.Extensions;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Utterance recognition result.

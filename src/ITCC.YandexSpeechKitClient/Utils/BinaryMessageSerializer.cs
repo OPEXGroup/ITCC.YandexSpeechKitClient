@@ -4,10 +4,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 using ProtoBuf.Meta;
 
-namespace ITCC.YandexSpeeckKitClient.Utils
+namespace ITCC.YandexSpeechKitClient.Utils
 {
     internal static class BinaryMessageSerializer
     {

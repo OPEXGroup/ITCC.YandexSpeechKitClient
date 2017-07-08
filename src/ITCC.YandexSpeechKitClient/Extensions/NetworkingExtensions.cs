@@ -4,9 +4,9 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ITCC.YandexSpeeckKitClient.Utils;
+using ITCC.YandexSpeechKitClient.Utils;
 
-namespace ITCC.YandexSpeeckKitClient.Extensions
+namespace ITCC.YandexSpeechKitClient.Extensions
 {
     internal static class NetworkingExtensions
     {

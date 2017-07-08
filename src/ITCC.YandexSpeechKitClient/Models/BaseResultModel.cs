@@ -3,7 +3,7 @@
 
 using System;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Base biometric result type.

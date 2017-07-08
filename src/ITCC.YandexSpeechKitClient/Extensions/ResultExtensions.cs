@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using ITCC.YandexSpeeckKitClient.Models;
+using ITCC.YandexSpeechKitClient.Models;
 
-namespace ITCC.YandexSpeeckKitClient.Extensions
+namespace ITCC.YandexSpeechKitClient.Extensions
 {
     internal static class ResultExtensions
     {

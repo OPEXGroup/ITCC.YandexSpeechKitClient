@@ -3,10 +3,10 @@
 
 using System;
 using System.Net.Sockets;
-using ITCC.YandexSpeeckKitClient.Enums;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.Enums;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Speech recognition result.

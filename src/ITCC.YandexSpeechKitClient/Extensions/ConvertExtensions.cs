@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace ITCC.YandexSpeeckKitClient.Extensions
+namespace ITCC.YandexSpeechKitClient.Extensions
 {
     internal static class ConvertExtensions
     {

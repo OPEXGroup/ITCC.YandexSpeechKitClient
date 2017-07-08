@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ITCC.YandexSpeeckKitClient.MessageModels.HttpMode
+namespace ITCC.YandexSpeechKitClient.MessageModels.HttpMode
 {
     /// <summary>
     /// Recognition result message.
