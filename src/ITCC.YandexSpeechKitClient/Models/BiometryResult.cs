@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ITCC.YandexSpeeckKitClient.Enums;
-using ITCC.YandexSpeeckKitClient.Extensions;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using ITCC.YandexSpeeckKitClient.Utils;
+using ITCC.YandexSpeechKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Extensions;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.Utils;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Speech analysis result. 

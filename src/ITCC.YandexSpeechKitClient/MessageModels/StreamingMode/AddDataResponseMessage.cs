@@ -3,10 +3,10 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using ITCC.YandexSpeeckKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Enums;
 using ProtoBuf;
 
-namespace ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode
+namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
     /// Speech recognition result message.

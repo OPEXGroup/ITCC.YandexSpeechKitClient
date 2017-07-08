@@ -4,9 +4,9 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using ITCC.YandexSpeeckKitClient.MessageModels.HttpMode;
+using ITCC.YandexSpeechKitClient.MessageModels.HttpMode;
 
-namespace ITCC.YandexSpeeckKitClient.Utils
+namespace ITCC.YandexSpeechKitClient.Utils
 {
     internal static class XmlMessageSerializer
     {

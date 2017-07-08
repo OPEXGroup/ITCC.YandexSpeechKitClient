@@ -9,13 +9,13 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ITCC.YandexSpeeckKitClient.Enums;
-using ITCC.YandexSpeeckKitClient.Extensions;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
-using ITCC.YandexSpeeckKitClient.Models;
-using ITCC.YandexSpeeckKitClient.Utils;
+using ITCC.YandexSpeechKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Extensions;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.Models;
+using ITCC.YandexSpeechKitClient.Utils;
 
-namespace ITCC.YandexSpeeckKitClient
+namespace ITCC.YandexSpeechKitClient
 {
     /// <summary>
     /// Session used for speech recognition in data streaming mode.

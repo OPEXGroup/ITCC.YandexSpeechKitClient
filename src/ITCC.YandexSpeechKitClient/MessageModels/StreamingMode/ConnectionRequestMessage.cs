@@ -4,7 +4,7 @@
 using System.ComponentModel;
 using ProtoBuf;
 
-namespace ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode
+namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
     /// Start speech recognotion session request message.

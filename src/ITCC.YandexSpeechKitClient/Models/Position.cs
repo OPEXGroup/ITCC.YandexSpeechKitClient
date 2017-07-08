@@ -3,7 +3,7 @@
 
 using System;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Coordinates of device.

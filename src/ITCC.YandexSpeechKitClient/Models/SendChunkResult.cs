@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System.Net.Sockets;
-using ITCC.YandexSpeeckKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Enums;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Audio data chunk uploading result.

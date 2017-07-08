@@ -4,9 +4,9 @@
 using System;
 using System.IO;
 using System.Net;
-using ITCC.YandexSpeeckKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Enums;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Result of text-to-speech convertion.

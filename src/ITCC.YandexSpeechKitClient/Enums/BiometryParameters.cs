@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using ITCC.YandexSpeeckKitClient.Attributes;
+using ITCC.YandexSpeechKitClient.Attributes;
 
-namespace ITCC.YandexSpeeckKitClient.Enums
+namespace ITCC.YandexSpeechKitClient.Enums
 {
     /// <summary>
     /// Biometric analysis parameters.

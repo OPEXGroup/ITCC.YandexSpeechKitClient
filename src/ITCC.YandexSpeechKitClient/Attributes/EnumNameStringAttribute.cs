@@ -3,7 +3,7 @@
 
 using System;
 
-namespace ITCC.YandexSpeeckKitClient.Attributes
+namespace ITCC.YandexSpeechKitClient.Attributes
 {
     [AttributeUsage(AttributeTargets.Enum)]
     internal class EnumNameStringAttribute : Attribute

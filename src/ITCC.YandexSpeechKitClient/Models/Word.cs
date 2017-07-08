@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Word hypothesis message.

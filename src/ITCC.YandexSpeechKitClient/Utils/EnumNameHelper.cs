@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ITCC.YandexSpeeckKitClient.Attributes;
+using ITCC.YandexSpeechKitClient.Attributes;
 
-namespace ITCC.YandexSpeeckKitClient.Utils
+namespace ITCC.YandexSpeechKitClient.Utils
 {
     internal static class EnumNameHelper
     {

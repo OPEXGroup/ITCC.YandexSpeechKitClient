@@ -4,9 +4,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ITCC.YandexSpeeckKitClient.Models;
+using ITCC.YandexSpeechKitClient.Models;
 
-namespace ITCC.YandexSpeeckKitClient
+namespace ITCC.YandexSpeechKitClient
 {
     /// <summary>
     /// Factory for speech recognition sessions creation (data streaming mode).

@@ -3,7 +3,7 @@
 
 using ProtoBuf;
 
-namespace ITCC.YandexSpeeckKitClient.Enums
+namespace ITCC.YandexSpeechKitClient.Enums
 {
     /// <summary>
     /// Start speech recognition session respose code.

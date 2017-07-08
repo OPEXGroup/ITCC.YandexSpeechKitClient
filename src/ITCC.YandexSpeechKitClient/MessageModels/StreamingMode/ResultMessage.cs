@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using ProtoBuf;
 
-namespace ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode
+namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
     /// Utterance hypothesis message.

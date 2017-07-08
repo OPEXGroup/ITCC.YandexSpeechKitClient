@@ -9,12 +9,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using ITCC.YandexSpeeckKitClient.Enums;
-using ITCC.YandexSpeeckKitClient.Extensions;
-using ITCC.YandexSpeeckKitClient.Models;
-using ITCC.YandexSpeeckKitClient.Utils;
+using ITCC.YandexSpeechKitClient.Enums;
+using ITCC.YandexSpeechKitClient.Extensions;
+using ITCC.YandexSpeechKitClient.Models;
+using ITCC.YandexSpeechKitClient.Utils;
 
-namespace ITCC.YandexSpeeckKitClient
+namespace ITCC.YandexSpeechKitClient
 {
     /// <summary>
     /// Yandex SpeechKit Cloud API client for HTTP operations.

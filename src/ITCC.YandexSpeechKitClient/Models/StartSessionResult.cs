@@ -4,10 +4,10 @@
 using System;
 using System.Net.Sockets;
 using System.Security.Authentication;
-using ITCC.YandexSpeeckKitClient.Enums;
-using ITCC.YandexSpeeckKitClient.MessageModels.StreamingMode;
+using ITCC.YandexSpeechKitClient.Enums;
+using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 
-namespace ITCC.YandexSpeeckKitClient.Models
+namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
     /// Start speech recognotion session response.
