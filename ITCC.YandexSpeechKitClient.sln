@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITCC.YandexSpeechKitClient.Legacy", "src\ITCC.YandexSpeechKitClient.Legacy\ITCC.YandexSpeechKitClient.Legacy.csproj", "{38D8F806-C295-41C5-9FE7-945882A79683}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,11 +26,19 @@ Global
 		{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38D8F806-C295-41C5-9FE7-945882A79683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38D8F806-C295-41C5-9FE7-945882A79683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38D8F806-C295-41C5-9FE7-945882A79683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38D8F806-C295-41C5-9FE7-945882A79683}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1DADDFEC-1BE2-4B07-8BFE-44333D81C9C5} = {93B1BBC9-A39A-4B6E-AD07-44326E05DD11}
+		{38D8F806-C295-41C5-9FE7-945882A79683} = {93B1BBC9-A39A-4B6E-AD07-44326E05DD11}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86134C44-7A57-4B0C-B8C8-4AB7F5061096}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38D8F806-C295-41C5-9FE7-945882A79683}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ITCC.YandexSpeechKitClient.Legacy</RootNamespace>
+    <AssemblyName>ITCC.YandexSpeechKitClient.Legacy</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="protobuf-net, Version=2.3.2.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\protobuf-net.2.3.2\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Attributes\EnumNameStringAttribute.cs">
+      <Link>Attributes\EnumNameStringAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Attributes\EnumValueStringAttribute.cs">
+      <Link>Attributes\EnumValueStringAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Configuration.cs">
+      <Link>Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\AgeGroup.cs">
+      <Link>Enums\AgeGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\BiometryParameters.cs">
+      <Link>Enums\BiometryParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\ConnectionMode.cs">
+      <Link>Enums\ConnectionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\DetectedLanguage.cs">
+      <Link>Enums\DetectedLanguage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\Emotion.cs">
+      <Link>Enums\Emotion.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\Gender.cs">
+      <Link>Enums\Gender.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\RecognitionAudioFormat.cs">
+      <Link>Enums\RecognitionAudioFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\RecognitionLanguage.cs">
+      <Link>Enums\RecognitionLanguage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\ResponseCode.cs">
+      <Link>Enums\ResponseCode.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\Speaker.cs">
+      <Link>Enums\Speaker.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\SpeechModel.cs">
+      <Link>Enums\SpeechModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\SynthesisAudioFormat.cs">
+      <Link>Enums\SynthesisAudioFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\SynthesisLanguage.cs">
+      <Link>Enums\SynthesisLanguage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\SynthesisQuality.cs">
+      <Link>Enums\SynthesisQuality.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Enums\TransportStatus.cs">
+      <Link>Enums\TransportStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Extensions\ConvertExtensions.cs">
+      <Link>Extensions\ConvertExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Extensions\NetworkingExtensions.cs">
+      <Link>Extensions\NetworkingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Extensions\ResultExtensions.cs">
+      <Link>Extensions\ResultExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\HttpMode\RecognitionResultsMessage.cs">
+      <Link>MessageModels\HttpMode\RecognitionResultsMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\HttpMode\VariantMessage.cs">
+      <Link>MessageModels\HttpMode\VariantMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\AddDataMessage.cs">
+      <Link>MessageModels\StreamingMode\AddDataMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\AddDataResponseMessage.cs">
+      <Link>MessageModels\StreamingMode\AddDataResponseMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\AdvancedAsrOptionsMessage.cs">
+      <Link>MessageModels\StreamingMode\AdvancedAsrOptionsMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\BiometryResultMessage.cs">
+      <Link>MessageModels\StreamingMode\BiometryResultMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\ConnectionRequestMessage.cs">
+      <Link>MessageModels\StreamingMode\ConnectionRequestMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\ConnectionResponseMessage.cs">
+      <Link>MessageModels\StreamingMode\ConnectionResponseMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\ResultMessage.cs">
+      <Link>MessageModels\StreamingMode\ResultMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\MessageModels\StreamingMode\WordMessage.cs">
+      <Link>MessageModels\StreamingMode\WordMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\AgeGroupResult.cs">
+      <Link>Models\AgeGroupResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\BaseResultModel.cs">
+      <Link>Models\BaseResultModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\BiometryResult.cs">
+      <Link>Models\BiometryResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\ChunkRecognitionResult.cs">
+      <Link>Models\ChunkRecognitionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\GenderResult.cs">
+      <Link>Models\GenderResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\LanguageResult.cs">
+      <Link>Models\LanguageResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\Position.cs">
+      <Link>Models\Position.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\RecognitionResult.cs">
+      <Link>Models\RecognitionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\SendChunkResult.cs">
+      <Link>Models\SendChunkResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\SpeechToTextResult.cs">
+      <Link>Models\SpeechToTextResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\StartSessionResult.cs">
+      <Link>Models\StartSessionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\TextToSpechResult.cs">
+      <Link>Models\TextToSpechResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\UtteranceRecognitionResult.cs">
+      <Link>Models\UtteranceRecognitionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\UtteranceResult.cs">
+      <Link>Models\UtteranceResult.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\UtteranceVariant.cs">
+      <Link>Models\UtteranceVariant.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Models\Word.cs">
+      <Link>Models\Word.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechKitClient.cs">
+      <Link>SpeechKitClient.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechKitClientOptions.cs">
+      <Link>SpeechKitClientOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechRecognitionOptions.cs">
+      <Link>SpeechRecognitionOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechRecognitionSession.cs">
+      <Link>SpeechRecognitionSession.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechRecognitionSessionFactory.cs">
+      <Link>SpeechRecognitionSessionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SpeechRecognitionSessionOptions.cs">
+      <Link>SpeechRecognitionSessionOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\SynthesisOptions.cs">
+      <Link>SynthesisOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Utils\BinaryMessageSerializer.cs">
+      <Link>Utils\BinaryMessageSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Utils\EnumNameHelper.cs">
+      <Link>Utils\EnumNameHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Utils\EnumValueNameHelper.cs">
+      <Link>Utils\EnumValueNameHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\ITCC.YandexSpeechKitClient\Utils\XmlMessageSerializer.cs">
+      <Link>Utils\XmlMessageSerializer.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
