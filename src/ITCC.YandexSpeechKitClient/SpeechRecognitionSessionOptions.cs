@@ -32,7 +32,7 @@ namespace ITCC.YandexSpeechKitClient
         public RecognitionLanguage Language { get; set; } = RecognitionLanguage.Russian;
 
         /// <summary>
-        /// Biometric parameters to analyse.
+        /// Biometric parameters to analyze.
         /// </summary>
         public BiometryParameters BiometryParameters { get; set; } = BiometryParameters.None;
 

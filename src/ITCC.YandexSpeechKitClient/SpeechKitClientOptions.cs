@@ -36,7 +36,7 @@ namespace ITCC.YandexSpeechKitClient
         public int Timeout { get; }
 
         /// <summary>
-        /// Create new api client options.
+        /// Create new API client options.
         /// </summary>
         /// <param name="apiKey">The API key.</param>
         /// <param name="applicationName">Name of the client application.</param>
@@ -70,7 +70,7 @@ namespace ITCC.YandexSpeechKitClient
         }
 
         /// <summary>
-        /// Create new api client options.
+        /// Create new API client options.
         /// </summary>
         /// <param name="apiKey">The API key.</param>
         /// <param name="applicationName">Name of the client application.</param>

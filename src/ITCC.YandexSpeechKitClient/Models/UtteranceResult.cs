@@ -22,7 +22,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         public string NormalizedText { get; }
 
         /// <summary>
-        /// Words in the utterance. Proterty is null for intermediate results.
+        /// Words in the utterance. Property is null for intermediate results.
         /// </summary>
         public List<Word> Words { get; }
 

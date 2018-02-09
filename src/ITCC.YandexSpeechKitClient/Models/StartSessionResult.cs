@@ -10,7 +10,7 @@ using ITCC.YandexSpeechKitClient.MessageModels.StreamingMode;
 namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
-    /// Start speech recognotion session response.
+    /// Start speech recognition session response.
     /// </summary>
     public class StartSessionResult
     {
@@ -33,7 +33,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         };
 
         /// <summary>
-        /// Speech recornition session object.
+        /// Speech recognition session object.
         /// </summary>
         public SpeechRecognitionSession Session { get; }
 
@@ -63,7 +63,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         public string ServerHelloResponse { get; }
 
         /// <summary>
-        /// Specifies socker error if TransportStatus = SocketError.
+        /// Specifies socket error if TransportStatus = SocketError.
         /// </summary>
         public SocketError SocketError { get; private set; }
 

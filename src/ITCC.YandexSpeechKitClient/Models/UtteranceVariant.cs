@@ -12,7 +12,7 @@ namespace ITCC.YandexSpeechKitClient.Models
     public class UtteranceVariant
     {
         /// <summary>
-        /// Confidence of hypothesis.
+        /// Hypothesis confidence.
         /// </summary>
         public float Confidence { get; }
 

@@ -9,7 +9,7 @@ using ITCC.YandexSpeechKitClient.Enums;
 namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
-    /// Result of text-to-speech convertion.
+    /// Result of text-to-speech conversion.
     /// </summary>
     public class TextToSpechResult : IDisposable
     {

@@ -11,7 +11,7 @@ namespace ITCC.YandexSpeechKitClient.MessageModels.HttpMode
     public class VariantMessage
     {
         /// <summary>
-        /// Confidence of hypothesis.
+        /// Hypothesis confidence.
         /// </summary>
         [XmlAttribute(AttributeName = "confidence")]
         public float Confidence { get; set; }

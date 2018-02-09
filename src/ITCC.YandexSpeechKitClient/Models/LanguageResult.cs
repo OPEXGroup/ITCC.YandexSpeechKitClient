@@ -1,13 +1,12 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System;
 using ITCC.YandexSpeechKitClient.Enums;
 
 namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
-    /// Language biometric reuslt.
+    /// Language biometric result.
     /// </summary>
     public class LanguageResult : BaseResultModel
     {
@@ -16,9 +15,8 @@ namespace ITCC.YandexSpeechKitClient.Models
         /// </summary>
         public DetectedLanguage Language { get; }
 
-        /// <param name="confidence">Must be in range from 0 to 1.</param>
+        /// <param name="confidence">Hypothesis confidence.</param>
         /// <param name="detectedLanguage">Speaker language value.</param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         internal LanguageResult(float confidence, DetectedLanguage detectedLanguage) : base(confidence)
         {
             Language = detectedLanguage;

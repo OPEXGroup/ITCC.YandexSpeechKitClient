@@ -1,6 +1,6 @@
 BSD 2-Clause License
 
-Copyright (c) 2017, Vladislav Prishchepa  
+Copyright (c) 2017-2018, Vladislav Prishchepa  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
