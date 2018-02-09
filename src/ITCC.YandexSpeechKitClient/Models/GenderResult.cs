@@ -15,7 +15,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         /// </summary>
         public Gender Gender { get; }
 
-        /// <param name="confidence">Confidence of hypothesis.</param>
+        /// <param name="confidence">Hypothesis confidence.</param>
         /// <param name="gender">Speaker gender value.</param>
         internal GenderResult(float confidence, Gender gender) : base(confidence)
         {

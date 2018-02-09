@@ -9,10 +9,13 @@ namespace ITCC.YandexSpeechKitClient.Models
     public abstract class BaseResultModel
     {
         /// <summary>
-        /// Confidence of hypothesis.
+        /// Hypothesis confidence.
         /// </summary>
         public float Confidence { get; }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="confidence">Hypothesis confidence.</param>
         protected BaseResultModel(float confidence)
         {
             Confidence = confidence;

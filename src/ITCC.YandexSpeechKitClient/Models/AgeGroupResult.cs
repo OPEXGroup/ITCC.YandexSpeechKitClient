@@ -15,7 +15,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         /// </summary>
         public AgeGroup Group { get; }
 
-        /// <param name="confidence">Confidence of hypothesis.</param>
+        /// <param name="confidence">Hypothesis confidence.</param>
         /// <param name="ageGroup">Speaker age group value.</param>
         internal AgeGroupResult(float confidence, AgeGroup ageGroup) : base(confidence)
         {

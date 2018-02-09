@@ -15,7 +15,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         /// </summary>
         public DetectedLanguage Language { get; }
 
-        /// <param name="confidence">Confidence of hypothesis.</param>
+        /// <param name="confidence">Hypothesis confidence.</param>
         /// <param name="detectedLanguage">Speaker language value.</param>
         internal LanguageResult(float confidence, DetectedLanguage detectedLanguage) : base(confidence)
         {
