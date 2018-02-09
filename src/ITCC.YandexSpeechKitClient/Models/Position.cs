@@ -16,7 +16,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         public static readonly Position Zero = new Position(0, 0);
 
         /// <summary>
-        /// Latibude component.
+        /// Latitude component.
         /// </summary>
         public double Latitude { get; }
 

@@ -31,6 +31,11 @@ namespace ITCC.YandexSpeechKitClient
 
         #endregion
 
+        /// <summary>
+        /// Max size of audio data chunk.
+        /// </summary>
+        public const int MaxChunkSize = 1024 * 1024;
+
         #region Public properties
 
         /// <summary>
@@ -54,7 +59,7 @@ namespace ITCC.YandexSpeechKitClient
         public RecognitionLanguage Language { get; }
 
         /// <summary>
-        /// Biometric parameters to analyse.
+        /// Biometric parameters to analyze.
         /// </summary>
         public BiometryParameters BiometryParameters { get; }
 
@@ -120,9 +125,9 @@ namespace ITCC.YandexSpeechKitClient
         #region Public methods
 
         /// <summary>
-        /// Send new chunk ou audio data to recognize.
+        /// Send new chunk of audio data to recognize.
         /// </summary>
-        /// <param name="data">Binary audio data.</param>
+        /// <param name="data">Binary audio data. Must be less then <see cref="MaxChunkSize"/>.</param>
         /// <param name="lastChunk">Indicates this chunk is the last chunk in current session. If true server forms final results and closes connection after next result request.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <returns></returns>
@@ -132,7 +137,10 @@ namespace ITCC.YandexSpeechKitClient
         /// <exception cref="OperationCanceledException"></exception>
         public async Task<SendChunkResult> SendChunkAsync(byte[] data, bool lastChunk = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (data.Length > 1024 * 1024)
+            if (data == null & !lastChunk)
+                throw new InvalidOperationException("Null data allowed only for last chunk.");
+
+            if (data?.Length > MaxChunkSize)
                 throw new ArgumentOutOfRangeException(nameof(data), data.Length, "Chunk size must be less than 1 MB.");
 
             ThrowIfDisposed();

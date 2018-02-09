@@ -27,7 +27,7 @@ Note that some speech models are not available for all languages.
 ## Usage
 
 Use `SpeechKitClientOptions` class to configure basic API access parameters:
-```
+```c#
 var apiSetttings = new SpeechKitClientOptions("apiKey", "someApplication", Guid.Empty, "device");
 ```
 
@@ -39,7 +39,7 @@ Automatic speech recognition is the process of turning speech into text. Yandex 
 
 Use HTTP mode for simple speech-to-text conversion if you want just convert one audio file to text without intermediate results or analytics:
 
-```
+```c#
 using (var client = new SpeechKitClient(apiSetttings))
 {
     var speechRecognitionOptions = new SpeechRecognitionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K, RecognitionLanguage.Russian);
@@ -77,7 +77,7 @@ If you want to receive intermediate result during recognition or advanced inform
 
 First of all, start new speech recognition session:
 
-```
+```c#
 var sessionOptions = new SpeechRecognitionSessionOptions(SpeechModel.Queries, RecognitionAudioFormat.Pcm16K)
 {
     Language = RecognitionLanguage.Russian,
@@ -123,7 +123,7 @@ If session start fails, session sould be disposed. Check parameters and retry at
 If session successfully started, `session.SendChunkAsync` and `session.ReceiveRecognitionResultAsync` could be used.
 
 To send data chunk, use
-```
+```c#
 var sendChunkResult = await session.SendChunkAsync(audioData, lastChunk, cancellationToken).ConfigureAwait(false);
 ```
 
@@ -132,7 +132,7 @@ Verify operation result using ``sendChunkResult.TransportStatus``.
 Use `lastChunk = true` when sending final data chunk. In this case server sends final recognition results and closes connection.
 
 To receive recognition results, use:
-```
+```c#
 var getResponseResult = await session.ReceiveRecognitionResultAsync(cancellationToken).ConfigureAwait(false);
 ```
 
@@ -144,7 +144,7 @@ Speech synthesis (text-to-speech) is the process of generating speech from print
 
 To convert text to speech, use:
 
-```
+```c#
 using (var client = new SpeechKitClient(apiSetttings))
 {
     var options = new SynthesisOptions("Text to be spoken", 1.4)

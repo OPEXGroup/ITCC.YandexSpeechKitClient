@@ -7,7 +7,7 @@ using ProtoBuf;
 namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
-    /// Biobetric parameter hypothesis message.
+    /// Biometric parameter hypothesis message.
     /// </summary>
     [ProtoContract(Name = "BiometryResult")]
     public class BiometryResultMessage

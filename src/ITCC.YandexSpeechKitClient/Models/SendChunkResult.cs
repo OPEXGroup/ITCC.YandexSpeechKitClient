@@ -27,7 +27,7 @@ namespace ITCC.YandexSpeechKitClient.Models
         public TransportStatus TransportStatus { get; }
 
         /// <summary>
-        /// Contains error description if socker error occures.
+        /// Contains error description if socket error occurs.
         /// </summary>
         public SocketError SocketError { get; }
 

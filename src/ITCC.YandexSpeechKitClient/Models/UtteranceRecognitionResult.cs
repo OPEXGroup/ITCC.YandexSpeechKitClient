@@ -9,7 +9,7 @@ using ITCC.YandexSpeechKitClient.MessageModels.HttpMode;
 namespace ITCC.YandexSpeechKitClient.Models
 {
     /// <summary>
-    /// Simple utterance recognotion result.
+    /// Simple utterance recognition result.
     /// </summary>
     public class UtteranceRecognitionResult
     {
@@ -33,7 +33,7 @@ namespace ITCC.YandexSpeechKitClient.Models
 
             Success = true;
 
-            if (recognitionResultsMessage.Variants?.Count == 0)
+            if (recognitionResultsMessage.Variants?.Any() != true)
                 throw new ArgumentException("Empty variant collection.", nameof(recognitionResultsMessage));
 
             Variants = recognitionResultsMessage.Variants.Select(message => new UtteranceVariant(message)).ToList();

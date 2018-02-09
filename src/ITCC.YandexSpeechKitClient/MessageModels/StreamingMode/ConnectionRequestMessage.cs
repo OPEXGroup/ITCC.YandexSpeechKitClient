@@ -7,7 +7,7 @@ using ProtoBuf;
 namespace ITCC.YandexSpeechKitClient.MessageModels.StreamingMode
 {
     /// <summary>
-    /// Start speech recognotion session request message.
+    /// Start speech recognition session request message.
     /// </summary>
     [ProtoContract(Name = "ConnectionRequest")]
     [ProtoInclude(19, typeof(AdvancedAsrOptionsMessage))]

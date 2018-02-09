@@ -14,7 +14,7 @@ namespace ITCC.YandexSpeechKitClient.Enums
         Ok,
 
         /// <summary>
-        /// Operation failed because of unexpected server behaviour.
+        /// Operation failed because of unexpected server behavior.
         /// </summary>
         UnexpectedServerResponse,
 
