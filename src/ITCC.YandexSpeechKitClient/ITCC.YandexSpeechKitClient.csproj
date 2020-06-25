@@ -16,7 +16,15 @@
     <Copyright>Copyright (c) 2017-2018, Vladislav Prishchepa</Copyright>
     <PackageLicenseUrl>https://github.com/OPEXGroup/ITCC.YandexSpeechKitClient/blob/master/Licence.md</PackageLicenseUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\build\ITCC.YandexSpeechKitClient\Debug</OutputPath>
