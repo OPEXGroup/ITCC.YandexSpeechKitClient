@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 (2020-06-28)
+
+* **New**:  SourceLink support added.  
+
 ## 1.0.2 (2018-02-09)
 
 * **Fix**:	Confidence value check removed.  
