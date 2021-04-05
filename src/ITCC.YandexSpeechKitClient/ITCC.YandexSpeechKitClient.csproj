@@ -56,7 +56,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
     <PackageReference Include="System.Net.Security">
-      <Version>4.3.0</Version>
+      <Version>4.3.1</Version>
     </PackageReference>
   </ItemGroup>
  
